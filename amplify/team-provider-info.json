@@ -1,0 +1,27 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-takcarly-staging-142925-authRole",
+      "UnauthRoleArn": "arn:aws:iam::232665835945:role/amplify-takcarly-staging-142925-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::232665835945:role/amplify-takcarly-staging-142925-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-takcarly-staging-142925-deployment",
+      "UnauthRoleName": "amplify-takcarly-staging-142925-unauthRole",
+      "StackName": "amplify-takcarly-staging-142925",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:232665835945:stack/amplify-takcarly-staging-142925/992e7550-5083-11ed-abdf-0a6722485526",
+      "AmplifyAppId": "d2l337gnbx5h2a"
+    },
+    "categories": {
+      "auth": {
+        "takcarly1844a5d5": {},
+        "takcarly": {}
+      },
+      "function": {
+        "takcarlySignUpAutoConfirm": {
+          "deploymentBucketName": "amplify-takcarly-staging-142925-deployment",
+          "s3Key": "amplify-builds/takcarlySignUpAutoConfirm-69415a647154416f3376-build.zip"
+        }
+      }
+    }
+  }
+}
