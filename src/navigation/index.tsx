@@ -18,6 +18,7 @@ import DetailScreen from "@screens/detail/DetailScreen";
 import LoginMainScreen from "@screens/auth/LoginMainScreen";
 import LoginSignupScreen from "@screens/auth/LoginSignupScreen";
 import { Hub } from "aws-amplify";
+import ElderlyLinkScreen from "@screens/auth/ElderlyLinkScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -58,6 +59,9 @@ const Navigation = () => {
         setSignedIn(true);
         break;
       }
+      case "signOut":
+        setSignedIn(false);
+        break;
       default:
         console.log(event);
         break;
@@ -100,6 +104,10 @@ const Navigation = () => {
           name={SCREENS.LOGINSIGNUP}
           component={LoginSignupScreen}
           initialParams={{ type: "login" }}
+        />
+        <Stack.Screen
+          name={SCREENS.ELDERLYLINK}
+          component={ElderlyLinkScreen}
         />
       </Stack.Navigator>
     );

@@ -28,7 +28,7 @@ const LoginMainScreen: React.FC<LoginScreenProps> = () => {
   };
 
   const elderly = (): void => {
-    console.log("elderly");
+    NavigationService.push(SCREENS.ELDERLYLINK);
   };
 
   return (
@@ -39,8 +39,8 @@ const LoginMainScreen: React.FC<LoginScreenProps> = () => {
         </Text>
       </View>
       <View>
-        <Button title="Sign Up" onPress={signup} />
         <Button title="Login" onPress={login} />
+        <Button title="Sign Up" onPress={signup} />
         <Button title="Elderly" onPress={elderly} />
       </View>
     </SafeAreaView>

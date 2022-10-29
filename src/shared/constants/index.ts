@@ -6,4 +6,5 @@ export const SCREENS = {
   DETAIL: "Detail",
   LOGINMAIN: "LoginMain",
   LOGINSIGNUP: "LoginSignup",
+  ELDERLYLINK: "ElderlyLink",
 };
