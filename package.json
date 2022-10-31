@@ -4,6 +4,7 @@
   "description": "React Native Template/Boilerplate for awesome applications, using Typescript with a lot of built-in ready features.",
   "dependencies": {
     "@aws-amplify/auth": "^4.6.10",
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
     "@freakycoder/react-native-bounceable": "^1.0.3",
     "@freakycoder/react-native-custom-text": "0.1.2",
     "@freakycoder/react-native-helpers": "^1.0.2",

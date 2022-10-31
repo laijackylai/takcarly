@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 /**
@@ -60,7 +60,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   }, [linked]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text h2 color={colors.text}>
         Elderly Link Code
       </Text>
@@ -68,7 +68,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       <Text h1 color={colors.text}>
         {linkCode}
       </Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

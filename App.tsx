@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import "@azure/core-asynciterator-polyfill";
 import React, { useEffect } from "react";
 import { StatusBar, useColorScheme, LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";

@@ -1,10 +1,11 @@
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import React, { useMemo, useState } from "react";
-import { Button, SafeAreaView, TextInput, View } from "react-native";
+import { Alert, Button, SafeAreaView, TextInput, View } from "react-native";
 import { RouteProp, useTheme } from "@react-navigation/native";
 
 import createStyles from "./LoginSignupScreen.style";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
+import { User } from "models";
 
 type LoginSignupScreenParams = {
   LoginSignup: { type: string };
@@ -45,10 +46,28 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route }) => {
         autoSignIn: {
           enabled: true,
         },
-      });
+      })
+        .then((res) => {
+          if (res.userConfirmed) {
+            createNewUser(res.user.getUsername());
+          }
+        })
+        .catch((e) => Alert.alert("Error", e));
     } catch (error) {
       console.log("error signing up", error);
     }
+  };
+
+  const createNewUser = async (name: string) => {
+    await DataStore.save(
+      new User({
+        name,
+        linkedElderly: [],
+        schedule: [],
+      }),
+    )
+      .then((user) => console.info(`new user created: ${user.name}`))
+      .catch((e) => console.error(e));
   };
 
   return (

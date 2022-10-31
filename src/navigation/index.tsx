@@ -17,8 +17,13 @@ import NotificationScreen from "@screens/notification/NotificationScreen";
 import DetailScreen from "@screens/detail/DetailScreen";
 import LoginMainScreen from "@screens/auth/LoginMainScreen";
 import LoginSignupScreen from "@screens/auth/LoginSignupScreen";
-import { Hub } from "aws-amplify";
+import { DataStore, Hub } from "aws-amplify";
 import ElderlyLinkScreen from "@screens/auth/ElderlyLinkScreen";
+import CaretakerLinkScreen from "@screens/auth/CaretakerLinkScreen";
+import * as NavigationService from "react-navigation-helpers";
+import { User } from "models";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { saveUser } from "shared/functions/saveUser";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,10 +31,25 @@ const Stack = createStackNavigator();
 const RenderHomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={SCREENS.HOME} component={HomeScreen} />
+      <Stack.Screen name={SCREENS.HOMEMAIN} component={HomeScreen} />
       <Stack.Screen name={SCREENS.DETAIL}>
         {(props) => <DetailScreen {...props} />}
       </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+const RenderProfileStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={SCREENS.PROFILEMAIN}
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name={SCREENS.PROFILEMAIN} component={ProfileScreen} />
+      <Stack.Screen
+        name={SCREENS.CARETAKERLINK}
+        component={CaretakerLinkScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -39,34 +59,64 @@ const Navigation = () => {
   const isDarkMode = scheme === "dark";
 
   const [signedIn, setSignedIn] = useState<boolean>(false);
+  const [elderlyLinked, setElderlyLinked] = useState<boolean>(false);
 
   Hub.listen("auth", (data) => {
     const { payload } = data;
     const { event } = payload;
-    console.log(event);
     switch (event) {
       case "autoSignIn": {
-        const user = payload.data;
-        console.log(user);
         setSignedIn(true);
+        const user = payload.data;
+        signInFlow(user);
         break;
       }
       case "autoSignIn_failure":
         break;
       case "signIn": {
-        const user = payload.data;
-        console.log(user);
         setSignedIn(true);
+        const user = payload.data;
+        signInFlow(user);
         break;
       }
       case "signOut":
         setSignedIn(false);
         break;
       default:
-        console.log(event);
         break;
     }
   });
+
+  const signInFlow = async (user: any) => {
+    const name: string = user.username;
+    if (name) {
+      const userData = await DataStore.query(User, (u) => u.name("eq", name), {
+        limit: 1,
+      });
+      checkLinkedElderly(userData);
+      saveUser(userData);
+    }
+  };
+
+  const checkLinkedElderly = async (userData: any) => {
+    if (userData[0].linkedElderly && userData[0].linkedElderly.length > 0) {
+      setElderlyLinked(true);
+    }
+    if (userData[0].linkedElderly && userData[0].linkedElderly.length === 0) {
+      setElderlyLinked(false);
+      NavigationService.navigate(SCREENS.PROFILE, {
+        screen: SCREENS.CARETAKERLINK,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const run = async () => {
+      const currentUser = await AsyncStorage.getItem("user");
+      if (currentUser != null) setSignedIn(true);
+    };
+    run();
+  }, []);
 
   useEffect((): any => {
     return () => (isReadyRef.current = false);
@@ -125,7 +175,7 @@ const Navigation = () => {
 
       {signedIn && (
         <Tab.Navigator
-          initialRouteName={SCREENS.HOME}
+          initialRouteName={elderlyLinked ? SCREENS.HOME : SCREENS.PROFILE}
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarIcon: ({ focused, color, size }) =>
@@ -142,7 +192,7 @@ const Navigation = () => {
             component={NotificationScreen}
           />
           <Tab.Screen name={SCREENS.HOME} component={RenderHomeStack} />
-          <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
+          <Tab.Screen name={SCREENS.PROFILE} component={RenderProfileStack} />
         </Tab.Navigator>
       )}
     </NavigationContainer>
