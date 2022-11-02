@@ -24,8 +24,32 @@ export declare type ScheduledItem = LazyLoading extends LazyLoadingDisabled ? Ea
 
 export declare const ScheduledItem: (new (init: ModelInit<ScheduledItem>) => ScheduledItem)
 
+type ElderlyMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 type UserMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type EagerElderly = {
+  readonly id: string;
+  readonly Code?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyElderly = {
+  readonly id: string;
+  readonly Code?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Elderly = LazyLoading extends LazyLoadingDisabled ? EagerElderly : LazyElderly
+
+export declare const Elderly: (new (init: ModelInit<Elderly, ElderlyMetaData>) => Elderly) & {
+  copyOf(source: Elderly, mutator: (draft: MutableModel<Elderly, ElderlyMetaData>) => MutableModel<Elderly, ElderlyMetaData> | void): Elderly;
 }
 
 type EagerUser = {

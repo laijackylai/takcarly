@@ -7,6 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  */
 import createStyles from "./ElderlyLinkScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
+import { DataStore } from "aws-amplify";
+import { Elderly, User } from "models";
 
 interface ElderlyLinkScreenProps { }
 
@@ -24,6 +26,12 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       const newCode = makeID(6);
       await storeData("elderlyCode", newCode);
       setLinkCode(newCode);
+      // save new code into aws amplify
+      await DataStore.save(
+        new Elderly({
+          Code: newCode,
+        }),
+      );
     }
   };
 
@@ -50,13 +58,24 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
     AsyncStorage.removeItem("elderlyCode");
   };
 
+  const checkLinked = async (): Promise<void> => {
+    const linkedUser = await DataStore.query(User, (u) =>
+      u.linkedElderly("contains", linkCode),
+    );
+    if (linkedUser.length > 0) {
+      setLinked(true);
+    }
+  };
+
   useEffect(() => {
     // _clearCode();
     getData();
+    checkLinked();
   }, []);
 
   useEffect(() => {
     // nav to elderly screen
+    if (linked) console.log("linked");
   }, [linked]);
 
   return (

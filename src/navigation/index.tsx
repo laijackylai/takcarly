@@ -24,6 +24,7 @@ import * as NavigationService from "react-navigation-helpers";
 import { User } from "models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveUser } from "shared/functions/saveUser";
+import { getUser } from "shared/functions/getUser";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -93,16 +94,27 @@ const Navigation = () => {
       const userData = await DataStore.query(User, (u) => u.name("eq", name), {
         limit: 1,
       });
-      checkLinkedElderly(userData);
-      saveUser(userData);
+      checkLinkedElderly(userData[0]);
+      saveUser(userData[0]);
+      subscribeToUser(userData[0].id);
     }
   };
 
+  const subscribeToUser = (id: string) => {
+    const subscription = DataStore.observe(User, id).subscribe(
+      async (newUserData) => {
+        await AsyncStorage.setItem("user", JSON.stringify(newUserData.element));
+      },
+    );
+    console.info("subscribed to user changes");
+  };
+
   const checkLinkedElderly = async (userData: any) => {
-    if (userData[0].linkedElderly && userData[0].linkedElderly.length > 0) {
+    if (userData.linkedElderly && userData.linkedElderly.length > 0) {
       setElderlyLinked(true);
+      return;
     }
-    if (userData[0].linkedElderly && userData[0].linkedElderly.length === 0) {
+    if (userData.linkedElderly && userData.linkedElderly.length === 0) {
       setElderlyLinked(false);
       NavigationService.navigate(SCREENS.PROFILE, {
         screen: SCREENS.CARETAKERLINK,
@@ -110,10 +122,26 @@ const Navigation = () => {
     }
   };
 
+  const checkLocalElderly = async () => {
+    const user: User = await getUser();
+    if (user == null) return;
+    if (user.linkedElderly != undefined && user.linkedElderly?.length > 0) {
+      console.info("elderly linked");
+      setElderlyLinked(true);
+    } else {
+      setElderlyLinked(false);
+    }
+  };
+
   useEffect(() => {
     const run = async () => {
+      await checkLocalElderly();
       const currentUser = await AsyncStorage.getItem("user");
-      if (currentUser != null) setSignedIn(true);
+      const uid = await AsyncStorage.getItem("uid");
+      if (currentUser != null && uid != null) {
+        setSignedIn(true);
+        subscribeToUser(uid);
+      }
     };
     run();
   }, []);

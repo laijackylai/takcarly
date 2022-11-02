@@ -1,3 +1,8 @@
+type Elderly @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Code: String
+}
+
 type ScheduledItem {
   datetime: AWSDateTime
   title: String
@@ -13,3 +18,4 @@ type User @model @auth(rules: [{allow: public}]) {
   linkedElderly: [String]
   schedule: [ScheduledItem]
 }
+ 

@@ -3,6 +3,7 @@ import { ViewStyle, StyleSheet } from "react-native";
 
 interface Style {
   container: ViewStyle;
+  gap: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -13,6 +14,9 @@ export default (theme: ExtendedTheme) => {
       backgroundColor: colors.background,
       alignItems: "center",
       justifyContent: "center",
+    },
+    gap: {
+      padding: 20,
     },
   });
 };

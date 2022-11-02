@@ -48,7 +48,7 @@ const App = () => {
         return jsonValue != null ? JSON.parse(jsonValue) : null;
       } catch (e) {
         // error reading value, add new default value
-        storeData("user", null);
+        storeData("user", "null");
       }
     };
 
