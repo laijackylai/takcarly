@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Button, View } from "react-native";
+import { Button, SafeAreaView, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
@@ -10,6 +10,7 @@ import { Auth } from "aws-amplify";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "../../shared/constants/index";
 import { removeUser } from "shared/functions/removeUser";
+import { localStrings } from "shared/localization";
 
 interface ProfileScreenProps { }
 
@@ -32,13 +33,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text h1 color={colors.text}>
-        Profile
+        {localStrings.profile}
       </Text>
-      <Button title="Link" onPress={link} />
-      <Button title="Sign Out" onPress={signout} />
-    </View>
+      <View>
+        <Button title={localStrings.link} onPress={link} />
+        <Button title={localStrings.signout} onPress={signout} />
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -6,6 +6,7 @@ import { RouteProp, useTheme } from "@react-navigation/native";
 import createStyles from "./LoginSignupScreen.style";
 import { Auth, DataStore } from "aws-amplify";
 import { User } from "models";
+import { localStrings } from "shared/localization";
 
 type LoginSignupScreenParams = {
   LoginSignup: { type: string };
@@ -73,17 +74,17 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text h1 color={colors.text}>
-        {type === "login" ? "Login" : "Signup"}
+        {type === "login" ? localStrings.login : localStrings.signup}
       </Text>
       <View style={styles.textInput}>
         <TextInput
-          placeholder="username"
+          placeholder={localStrings.username}
           textContentType="name"
           autoCapitalize="none"
           onChangeText={(t) => setUsername(t)}
         />
         <TextInput
-          placeholder="password"
+          placeholder={localStrings.password}
           textContentType="password"
           secureTextEntry
           autoCapitalize="none"
@@ -91,9 +92,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route }) => {
         />
       </View>
       {type === "login" ? (
-        <Button title="login" onPress={login} />
+        <Button title={localStrings.login} onPress={login} />
       ) : (
-        <Button title="signup" onPress={signup} />
+        <Button title={localStrings.signup} onPress={signup} />
       )}
     </SafeAreaView>
   );

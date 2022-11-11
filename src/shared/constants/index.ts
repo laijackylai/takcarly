@@ -1,9 +1,10 @@
+import { localStrings } from "shared/localization";
 // ? Screens
 export const SCREENS = {
   HOMEMAIN: "HomeMain",
-  HOME: "Home",
-  NOTIFICATION: "Notifications",
-  PROFILE: "Profile",
+  HOME: localStrings.home,
+  NOTIFICATION: localStrings.notifications,
+  PROFILE: localStrings.profile,
   PROFILEMAIN: "ProfileMain",
   DETAIL: "Detail",
   LOGINMAIN: "LoginMain",

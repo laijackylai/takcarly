@@ -11,6 +11,7 @@ import createStyles from "./LoginMainScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
+import { localStrings } from "shared/localization";
 
 interface LoginScreenProps { }
 
@@ -39,9 +40,9 @@ const LoginMainScreen: React.FC<LoginScreenProps> = () => {
         </Text>
       </View>
       <View>
-        <Button title="Login" onPress={login} />
-        <Button title="Sign Up" onPress={signup} />
-        <Button title="Elderly" onPress={elderly} />
+        <Button title={localStrings.login} onPress={login} />
+        <Button title={localStrings.signup} onPress={signup} />
+        <Button title={localStrings.elderly} onPress={elderly} />
       </View>
     </SafeAreaView>
   );

@@ -32,6 +32,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
           Code: newCode,
         }),
       );
+      console.info("saved new elderly code", newCode);
     }
   };
 

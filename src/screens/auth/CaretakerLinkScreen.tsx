@@ -10,6 +10,7 @@ import * as NavigationService from "react-navigation-helpers";
 import { addLinkedElderly } from "shared/functions/updateUser";
 import { getUser } from "../../shared/functions/getUser";
 import { User } from "models";
+import { localStrings } from "shared/localization";
 
 interface CaretakerLinkScreenProps { }
 
@@ -43,24 +44,24 @@ const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text h1 color={colors.text}>
-        Please fill in Link Code
+        {localStrings.fillInLinkCode}
       </Text>
       <View style={styles.gap} />
       <TextInput
-        placeholder="Code"
+        placeholder={localStrings.code}
         textContentType="oneTimeCode"
         autoCapitalize="characters"
         onChangeText={(t) => setLinkCode(t)}
       />
       <View style={styles.gap} />
       <View>
-        <Button title="link" onPress={link} />
-        <Button title="link later" onPress={linkLater} />
+        <Button title={localStrings.link} onPress={link} />
+        <Button title={localStrings.linkLater} onPress={linkLater} />
       </View>
       <View style={styles.gap} />
       <View style={{ alignItems: "center" }}>
         <Text h3 color={colors.text}>
-          Linked Elderly
+          {localStrings.linkedElderly}
         </Text>
         <View>
           {linkedElderly.map((s, i) => (
