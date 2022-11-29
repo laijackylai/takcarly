@@ -1,4 +1,4 @@
-package com.rntypescriptboilerplate;
+package com.laijackylai;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

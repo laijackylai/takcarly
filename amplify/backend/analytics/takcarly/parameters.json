@@ -1,0 +1,21 @@
+{
+    "appName": "takcarly",
+    "roleName": "pinpointLambdaRole66e49220",
+    "cloudformationPolicyName": "cloudformationPolicy66e49220",
+    "cloudWatchPolicyName": "cloudWatchPolicy66e49220",
+    "pinpointPolicyName": "pinpointPolicy66e49220",
+    "authPolicyName": "pinpoint_amplify_66e49220",
+    "unauthPolicyName": "pinpoint_amplify_66e49220",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

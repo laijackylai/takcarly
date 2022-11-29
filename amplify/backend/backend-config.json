@@ -54,5 +54,19 @@
         }
       }
     }
+  },
+  "analytics": {
+    "takcarly": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "notifications": {
+    "takcarly": {
+      "service": "Pinpoint",
+      "channels": [
+        "FCM"
+      ]
+    }
   }
 }

@@ -9,6 +9,7 @@ import createStyles from "./ElderlyLinkScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { DataStore } from "aws-amplify";
 import { Elderly, User } from "models";
+import { localStrings } from "shared/localization";
 
 interface ElderlyLinkScreenProps { }
 
@@ -29,10 +30,14 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       // save new code into aws amplify
       await DataStore.save(
         new Elderly({
-          Code: newCode,
+          code: linkCode,
+          userID: "null",
         }),
-      );
-      console.info("saved new elderly code", newCode);
+      )
+        .catch((e) => console.error(e))
+        .then(() => {
+          console.info("saved new elderly code", newCode);
+        });
     }
   };
 
@@ -60,12 +65,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   };
 
   const checkLinked = async (): Promise<void> => {
-    const linkedUser = await DataStore.query(User, (u) =>
-      u.linkedElderly("contains", linkCode),
-    );
-    if (linkedUser.length > 0) {
-      setLinked(true);
-    }
+
   };
 
   useEffect(() => {
@@ -81,8 +81,8 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h2 color={colors.text}>
-        Elderly Link Code
+      <Text h1 bold color={colors.darkBlue}>
+        {localStrings.elderlyLinkCode}
       </Text>
       <View style={styles.gap} />
       <Text h1 color={colors.text}>

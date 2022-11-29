@@ -1,28 +1,10 @@
 import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
-type EagerScheduledItem = {
-  readonly datetime?: string | null;
-  readonly title?: string | null;
-  readonly description?: string | null;
-  readonly completed?: boolean | null;
-  readonly starred?: boolean | null;
-  readonly images?: (string | null)[] | null;
+type ScheduledItemMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
 }
-
-type LazyScheduledItem = {
-  readonly datetime?: string | null;
-  readonly title?: string | null;
-  readonly description?: string | null;
-  readonly completed?: boolean | null;
-  readonly starred?: boolean | null;
-  readonly images?: (string | null)[] | null;
-}
-
-export declare type ScheduledItem = LazyLoading extends LazyLoadingDisabled ? EagerScheduledItem : LazyScheduledItem
-
-export declare const ScheduledItem: (new (init: ModelInit<ScheduledItem>) => ScheduledItem)
 
 type ElderlyMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -32,16 +14,54 @@ type UserMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
+type EagerScheduledItem = {
+  readonly id: string;
+  readonly title: string;
+  readonly description?: string | null;
+  readonly type: string;
+  readonly date: string;
+  readonly time: string;
+  readonly completed: boolean;
+  readonly starred: boolean;
+  readonly images?: (string | null)[] | null;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyScheduledItem = {
+  readonly id: string;
+  readonly title: string;
+  readonly description?: string | null;
+  readonly type: string;
+  readonly date: string;
+  readonly time: string;
+  readonly completed: boolean;
+  readonly starred: boolean;
+  readonly images?: (string | null)[] | null;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ScheduledItem = LazyLoading extends LazyLoadingDisabled ? EagerScheduledItem : LazyScheduledItem
+
+export declare const ScheduledItem: (new (init: ModelInit<ScheduledItem, ScheduledItemMetaData>) => ScheduledItem) & {
+  copyOf(source: ScheduledItem, mutator: (draft: MutableModel<ScheduledItem, ScheduledItemMetaData>) => MutableModel<ScheduledItem, ScheduledItemMetaData> | void): ScheduledItem;
+}
+
 type EagerElderly = {
   readonly id: string;
-  readonly Code?: string | null;
+  readonly code: string;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyElderly = {
   readonly id: string;
-  readonly Code?: string | null;
+  readonly code: string;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -55,8 +75,8 @@ export declare const Elderly: (new (init: ModelInit<Elderly, ElderlyMetaData>) =
 type EagerUser = {
   readonly id: string;
   readonly name: string;
-  readonly linkedElderly?: (string | null)[] | null;
-  readonly schedule?: (ScheduledItem | null)[] | null;
+  readonly Elderlies?: (Elderly | null)[] | null;
+  readonly ScheduledItems?: (ScheduledItem | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -64,8 +84,8 @@ type EagerUser = {
 type LazyUser = {
   readonly id: string;
   readonly name: string;
-  readonly linkedElderly?: (string | null)[] | null;
-  readonly schedule?: (ScheduledItem | null)[] | null;
+  readonly Elderlies: AsyncCollection<Elderly>;
+  readonly ScheduledItems: AsyncCollection<ScheduledItem>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

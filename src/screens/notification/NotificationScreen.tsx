@@ -17,7 +17,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h1 color={colors.text}>
+      <Text h1 bold color={colors.text}>
         {localStrings.notifications}
       </Text>
       <Text h5>{localStrings.noNotifications}</Text>

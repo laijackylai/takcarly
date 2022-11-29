@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1021101843434",
+    "project_id": "takcarly",
+    "storage_bucket": "takcarly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021101843434:android:dc217ca46e650443cd4893",
+        "android_client_info": {
+          "package_name": "com.laijackylai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021101843434-7ch3sgp9aig3fgu569jgiodi2muhrj1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASdlb1qlJ38R-T_HPYNzJN69Iv0uGyIIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021101843434-7ch3sgp9aig3fgu569jgiodi2muhrj1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

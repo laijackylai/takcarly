@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Button, SafeAreaView, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
@@ -11,6 +11,7 @@ import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "../../shared/constants/index";
 import { removeUser } from "shared/functions/removeUser";
 import { localStrings } from "shared/localization";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ProfileScreenProps { }
 
@@ -34,12 +35,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h1 color={colors.text}>
+      <Text h1 bold color={colors.text}>
         {localStrings.profile}
       </Text>
-      <View>
-        <Button title={localStrings.link} onPress={link} />
-        <Button title={localStrings.signout} onPress={signout} />
+      <View style={styles.buttons}>
+        <TouchableOpacity onPress={link}>
+          <Text h3 color={colors.darkBlue}>
+            {localStrings.link}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={signout}>
+          <Text h3 color={colors.danger}>
+            {localStrings.signout}
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

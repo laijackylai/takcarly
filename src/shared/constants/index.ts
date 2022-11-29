@@ -8,7 +8,8 @@ export const SCREENS = {
   PROFILEMAIN: "ProfileMain",
   DETAIL: "Detail",
   LOGINMAIN: "LoginMain",
-  LOGINSIGNUP: "LoginSignup",
+  LOGIN: "Login",
+  SIGNUP: "Signup",
   ELDERLYLINK: "ElderlyLink",
   CARETAKERLINK: "CaretakerLink",
 };

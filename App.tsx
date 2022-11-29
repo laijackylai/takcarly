@@ -9,8 +9,9 @@ import SplashScreen from "react-native-splash-screen";
 import Navigation from "./src/navigation";
 import { isAndroid } from "@freakycoder/react-native-helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Amplify from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import awsExports from "./src/aws-exports";
+import { NotificationProvider } from "react-native-internal-notification";
 
 LogBox.ignoreAllLogs();
 
@@ -56,9 +57,9 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <NotificationProvider>
       <Navigation />
-    </>
+    </NotificationProvider>
   );
 };
 

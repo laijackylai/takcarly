@@ -12,7 +12,7 @@ export const palette = {
   borderColor: "#d0d7de",
   borderColorDark: "#333942",
   placeholder: "#a1a1a1",
-  danger: "rgb(208, 2, 27)",
+  danger: "#C70000",
   title: "rgb(102, 102, 102)",
   separator: "rgb(194, 194, 195)",
   highlight: "rgb(199, 198, 203)",
@@ -24,6 +24,12 @@ export const palette = {
   dynamicBackground: "#fff",
   transparent: "transparent",
   calpyse: "#2b7488",
+  darkBlue: "#06283D",
+  blueGreen: "#256D85",
+  blue: "#47B5FF",
+  lightBlue: "#DFF6FF",
+  bell: "#F6B830",
+  green: "#34B233",
 };
 
 export const LightTheme: ExtendedTheme = {

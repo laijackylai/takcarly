@@ -1,9 +1,10 @@
 import { ExtendedTheme } from "@react-navigation/native";
-import { ViewStyle, StyleSheet } from "react-native";
+import { ViewStyle, StyleSheet, Platform, StatusBar } from "react-native";
+import { ScreenHeight } from "@freakycoder/react-native-helpers";
 
 interface Style {
   container: ViewStyle;
-  gap: ViewStyle;
+  buttons: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -13,10 +14,13 @@ export default (theme: ExtendedTheme) => {
       flex: 1,
       backgroundColor: colors.background,
       alignItems: "center",
-      // justifyContent: "center",
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
-    gap: {
-      margin: 10,
+    buttons: {
+      flex: 1,
+      flexDirection: "column",
+      alignItems: "center",
+      marginTop: 0.025 * ScreenHeight,
     },
   });
 };
