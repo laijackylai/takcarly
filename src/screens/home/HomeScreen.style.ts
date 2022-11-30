@@ -75,6 +75,7 @@ export default (theme: ExtendedTheme) => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
+      marginBottom: 5,
     },
     contentContainer: {
       flex: 1,

@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
+  ScrollView,
   Switch,
   TextInput,
   TouchableOpacity,
@@ -271,8 +272,8 @@ const ContentModal: React.FC<ContentModalProps> = ({
 
   return (
     <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
-      <View style={styles.container}>
-        <Text h1 bold color={colors.darkBlue} style={styles.newItemTitle} >
+      <ScrollView style={styles.container}>
+        <Text h1 bold color={colors.darkBlue} style={styles.newItemTitle}>
           {editType === "add" && localStrings.newSchedule}
           {editType === "edit" && localStrings.editSchedule}
         </Text>
@@ -393,7 +394,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
             </View>
           )}
         </View>
-      </View>
+      </ScrollView>
       <Modal
         isVisible={chooseIconModalVisibility}
         onBackdropPress={() => setChooseIconModalVisibility((ov) => !ov)}

@@ -4,7 +4,7 @@ import { ScreenHeight, ScreenWidth } from "@freakycoder/react-native-helpers";
 
 interface Style {
   container: ViewStyle;
-  newItemTitle;
+  newItemTitle: ViewStyle;
   titleInput: ViewStyle;
   descriptionInput: ViewStyle;
   btn: ViewStyle;
@@ -28,10 +28,10 @@ export default (theme: ExtendedTheme) => {
       backgroundColor: colors.background,
       borderRadius: 20,
       paddingHorizontal: 0.05 * ScreenWidth,
-      paddingVertical: 0.02 * ScreenHeight,
+      // paddingVertical: 0.02 * ScreenHeight,
       flex: 1,
-      justifyContent: "space-between",
-      marginVertical: 0.15 * ScreenHeight,
+      // justifyContent: "space-between",
+      marginVertical: 0.16 * ScreenHeight,
     },
     titleInput: {
       paddingVertical: 20,
@@ -45,7 +45,7 @@ export default (theme: ExtendedTheme) => {
       borderColor: colors.shadow,
     },
     newItemTitle: {
-      marginBottom: 15,
+      paddingVertical: 15,
     },
     descriptionInput: {
       paddingVertical: 20,
@@ -116,6 +116,7 @@ export default (theme: ExtendedTheme) => {
       alignSelf: "flex-end",
       minWidth: 0.3 * ScreenWidth,
       justifyContent: "space-between",
+      paddingBottom: 15,
     },
     typeTitle: {
       paddingHorizontal: 0.025 * ScreenWidth,

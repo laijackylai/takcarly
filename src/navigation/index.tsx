@@ -20,11 +20,12 @@ import { DataStore, Hub } from "aws-amplify";
 import ElderlyLinkScreen from "@screens/auth/ElderlyLinkScreen";
 import CaretakerLinkScreen from "@screens/auth/CaretakerLinkScreen";
 import * as NavigationService from "react-navigation-helpers";
-import { User } from "models";
+import { Elderly, User } from "models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveUser } from "shared/functions/saveUser";
-import { getUser } from "shared/functions/getUser";
 import SignupScreen from "@screens/auth/SignupScreen";
+import { PushNotification } from "@aws-amplify/pushnotification";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -97,9 +98,12 @@ const Navigation = () => {
       const userData = await DataStore.query(User, (u) => u.name.eq(name), {
         limit: 1,
       });
-      checkLinkedElderly(userData[0]);
-      saveUser(userData[0]);
-      subscribeToUser(userData[0].id);
+      if (userData && userData[0]) {
+        console.info("user data: ", userData[0]);
+        checkLinkedElderly(userData[0]);
+        saveUser(userData[0]);
+        subscribeToUser(userData[0].id);
+      }
     }
   };
 
@@ -109,18 +113,21 @@ const Navigation = () => {
         await AsyncStorage.setItem("user", JSON.stringify(newUserData.element));
       },
     );
-    console.info("subscribed to user changes");
+    console.info("subscribed to user changes, subscription ID: ", subscription);
   };
 
   const checkLinkedElderly = async (userData: User) => {
-    if (userData.Elderlies && (await userData.Elderlies.toArray()).length > 0) {
+    const { id } = userData;
+    const linkedElderies = await DataStore.query(Elderly, (e) =>
+      e.userID.eq(id),
+    ).catch((e) => console.error(e));
+    console.log(linkedElderies);
+    if (linkedElderies && linkedElderies.length > 0) {
+      console.info(linkedElderies.length, "elderly linked");
       setElderlyLinked(true);
-      return;
-    }
-    if (
-      userData.Elderlies &&
-      (await userData.Elderlies.toArray()).length === 0
-    ) {
+      NavigationService.navigate(SCREENS.HOME);
+    } else {
+      console.info("no elderly linked");
       setElderlyLinked(false);
       NavigationService.navigate(SCREENS.PROFILE, {
         screen: SCREENS.CARETAKERLINK,
@@ -128,36 +135,48 @@ const Navigation = () => {
     }
   };
 
-  const checkLocalElderly = async () => {
-    const user: User = await getUser();
-    if (user == null) return;
-    if (
-      user.Elderlies != undefined &&
-      (await user.Elderlies.toArray()).length > 0
-    ) {
-      console.info("elderly linked");
-      setElderlyLinked(true);
-    } else {
-      setElderlyLinked(false);
-    }
-  };
-
   const _clearAsyncStorage = async () => {
     await AsyncStorage.clear();
+  };
+
+  const configureNotifications = () => {
+    PushNotification.requestIOSPermissions();
+
+    // get the notification data when notification is received
+    PushNotification.onNotification((notification: any) => {
+      // Note that the notification object structure is different from Android and IOS
+      console.log("in app notification", notification);
+
+      // required on iOS only
+      // eslint-disable-next-line import/no-named-as-default-member
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    });
+
+    // get the registration token
+    // This will only be triggered when the token is generated or updated.
+    PushNotification.onRegister((token: any) => {
+      console.log("in app registration", token);
+    });
+
+    // get the notification data when notification is opened
+    PushNotification.onNotificationOpened((notification: any) => {
+      console.log("the notification is opened", notification);
+    });
   };
 
   useEffect(() => {
     const run = async () => {
       // _clearAsyncStorage();
-      await checkLocalElderly();
       const currentUser = await AsyncStorage.getItem("user");
       const uid = await AsyncStorage.getItem("uid");
       if (currentUser != null && uid != null) {
         setSignedIn(true);
         subscribeToUser(uid);
+        checkLinkedElderly(JSON.parse(currentUser));
       }
     };
     run();
+    configureNotifications();
   }, []);
 
   useEffect((): any => {

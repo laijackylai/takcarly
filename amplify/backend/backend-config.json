@@ -65,6 +65,7 @@
     "takcarly": {
       "service": "Pinpoint",
       "channels": [
+        "APNS",
         "FCM"
       ]
     }
