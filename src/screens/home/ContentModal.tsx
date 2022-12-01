@@ -297,13 +297,13 @@ const ContentModal: React.FC<ContentModalProps> = ({
           {editType === "edit" && localStrings.editSchedule}
         </Text>
         <View>
-          <Text h3 color={colors.darkBlue}>
+          <Text h2 color={colors.darkBlue}>
             {localStrings.title}
           </Text>
           <TextInput
             value={title}
             placeholder={localStrings.inputTitle}
-            style={styles.titleInput}
+            style={[styles.titleInput, styles.inputShadow]}
             multiline={true}
             onChangeText={(t) => setTitle(t)}
           />
@@ -315,7 +315,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
           <TextInput
             value={description}
             placeholder={localStrings.inputDescription}
-            style={styles.descriptionInput}
+            style={[styles.descriptionInput, styles.inputShadow]}
             multiline={true}
             onChangeText={(d) => setDescription(d)}
           />

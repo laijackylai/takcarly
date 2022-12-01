@@ -19,6 +19,7 @@ interface Style {
   delContainer: ViewStyle;
   otherDeets: ViewStyle;
   switch: ViewStyle;
+  inputShadow: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -33,16 +34,27 @@ export default (theme: ExtendedTheme) => {
       // justifyContent: "space-between",
       marginVertical: 0.16 * ScreenHeight,
     },
+    inputShadow: {
+      shadowRadius: 5,
+      shadowOpacity: 0.25,
+      shadowColor: colors.shadow,
+      shadowOffset: {
+        width: 3,
+        height: 5,
+      },
+      backgroundColor: "white",
+    },
     titleInput: {
       paddingVertical: 20,
       paddingHorizontal: 10,
       marginTop: 5,
       marginBottom: 10,
-      borderBottomWidth: 1,
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
+      borderLeftWidth: 10,
+      borderRadius: 10,
       borderBottomRightRadius: 10,
-      borderColor: colors.shadow,
+      borderColor: colors.darkBlue,
+      fontSize: 17,
+      // fontWeight: "bold",
     },
     newItemTitle: {
       paddingVertical: 15,
@@ -52,11 +64,10 @@ export default (theme: ExtendedTheme) => {
       paddingHorizontal: 10,
       marginTop: 5,
       marginBottom: 10,
-      borderBottomWidth: 1,
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
+      borderLeftWidth: 10,
+      borderRadius: 10,
       borderBottomRightRadius: 10,
-      borderColor: colors.shadow,
+      borderColor: colors.darkBlue,
       height: 0.15 * ScreenHeight,
     },
     btn: {

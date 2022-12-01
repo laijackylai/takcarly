@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import createStyles from "./ElderlyLinkScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { DataStore } from "aws-amplify";
-import { Elderly, User } from "models";
+import { Elderly } from "models";
 import { localStrings } from "shared/localization";
 
 interface ElderlyLinkScreenProps { }
