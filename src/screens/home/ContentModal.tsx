@@ -21,7 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DataStore } from "aws-amplify";
 import { ScheduledItem } from "models";
 import DatePicker from "react-native-date-picker";
-import { useNotification } from 'react-native-internal-notification';
+import { useNotification } from "react-native-internal-notification";
 
 interface ContentModalProps {
   isVisible: boolean;
@@ -285,7 +285,11 @@ const ContentModal: React.FC<ContentModalProps> = ({
   }, [translateDate, onEditModal, onNewModal]);
 
   return (
-    <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
+    <Modal
+      isVisible={isVisible}
+      onBackdropPress={onBackdropPress}
+      useNativeDriverForBackdrop={true}
+    >
       <ScrollView style={styles.container}>
         <Text h1 bold color={colors.darkBlue} style={styles.newItemTitle}>
           {editType === "add" && localStrings.newSchedule}
@@ -412,6 +416,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
       <Modal
         isVisible={chooseIconModalVisibility}
         onBackdropPress={() => setChooseIconModalVisibility((ov) => !ov)}
+        useNativeDriverForBackdrop={true}
       >
         <View style={styles.iconContainer}>
           <Text h2 bold color={colors.darkBlue} style={styles.typeTitle}>
@@ -432,6 +437,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
         animationOutTiming={100}
         isVisible={confirmDeleteModalVisibility}
         onBackdropPress={() => setConfirmDeleteModalVisibility((ov) => !ov)}
+        useNativeDriverForBackdrop={true}
       >
         <View style={styles.delContainer}>
           <Text h2 color={colors.darkBlue}>

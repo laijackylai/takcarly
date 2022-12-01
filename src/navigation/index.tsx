@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Platform, useColorScheme } from "react-native";
+import { PermissionsAndroid, Platform, useColorScheme } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
@@ -129,7 +129,6 @@ const Navigation = () => {
     const linkedElderies = await DataStore.query(Elderly, (e) =>
       e.userID.eq(id),
     ).catch((e) => console.error(e));
-    console.log(linkedElderies);
     if (linkedElderies && linkedElderies.length > 0) {
       console.info(linkedElderies.length, "elderly linked");
       setElderlyLinked(true);
@@ -147,31 +146,25 @@ const Navigation = () => {
     await AsyncStorage.clear();
   };
 
-  const configureNotifications = () => {
+  const configureNotifications = async () => {
     console.info("[notification] configuring...");
     if (Platform.OS === "ios") {
       PushNotification.requestIOSPermissions();
     }
 
-    // get the notification data when notification is received
     PushNotification.onNotification((notification: any) => {
-      // Note that the notification object structure is different from Android and IOS
       console.info("[notification] notification received: ", notification);
 
-      // required on iOS only
       if (Platform.OS === "ios") {
         // eslint-disable-next-line import/no-named-as-default-member
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       }
     });
 
-    // get the registration token
-    // This will only be triggered when the token is generated or updated.
     PushNotification.onRegister(async (token: any) => {
       console.info(`[notification] ${Platform.OS} app device token: `, token);
     });
 
-    // get the notification data when notification is opened
     PushNotification.onNotificationOpened((notification: any) => {
       console.info("[notification] the notification is opened: ", notification);
     });
