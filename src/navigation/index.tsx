@@ -26,6 +26,7 @@ import { saveUser } from "shared/functions/saveUser";
 import SignupScreen from "@screens/auth/SignupScreen";
 import { PushNotification } from "@aws-amplify/pushnotification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { Notifications } from "react-native-notifications";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -151,6 +152,21 @@ const Navigation = () => {
     if (Platform.OS === "ios") {
       PushNotification.requestIOSPermissions();
     }
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannel({
+        channelId: "takcarly",
+        name: "Takcarly",
+        importance: 5,
+        description: "Takcarly notification channel",
+        enableLights: true,
+        enableVibration: true,
+        // groupId: 'my-group', // optional
+        // groupName: 'My Group', // optional, will be presented in Android OS notification permission
+        showBadge: true,
+        // soundFile: 'custom_sound.mp3',  // place this in <project_root>/android/app/src/main/res/raw/custom_sound.mp3
+        vibrationPattern: [200, 1000, 500, 1000, 500],
+      });
+    }
 
     PushNotification.onNotification((notification: any) => {
       console.info("[notification] notification received: ", notification);
@@ -158,6 +174,20 @@ const Navigation = () => {
       if (Platform.OS === "ios") {
         // eslint-disable-next-line import/no-named-as-default-member
         notification.finish(PushNotificationIOS.FetchResult.NoData);
+      }
+      if (Platform.OS === "android") {
+        if (notification.title && notification.body) {
+          Notifications.postLocalNotification({
+            title: notification.title,
+            body: notification.body,
+            identifier: "",
+            payload: undefined,
+            sound: "",
+            badge: 0,
+            type: "",
+            thread: "",
+          });
+        }
       }
     });
 

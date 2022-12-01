@@ -289,6 +289,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
       isVisible={isVisible}
       onBackdropPress={onBackdropPress}
       useNativeDriverForBackdrop={true}
+      hideModalContentWhileAnimating={true}
     >
       <ScrollView style={styles.container}>
         <Text h1 bold color={colors.darkBlue} style={styles.newItemTitle}>
@@ -417,6 +418,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
         isVisible={chooseIconModalVisibility}
         onBackdropPress={() => setChooseIconModalVisibility((ov) => !ov)}
         useNativeDriverForBackdrop={true}
+        hideModalContentWhileAnimating={true}
       >
         <View style={styles.iconContainer}>
           <Text h2 bold color={colors.darkBlue} style={styles.typeTitle}>
@@ -438,6 +440,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
         isVisible={confirmDeleteModalVisibility}
         onBackdropPress={() => setConfirmDeleteModalVisibility((ov) => !ov)}
         useNativeDriverForBackdrop={true}
+        hideModalContentWhileAnimating={true}
       >
         <View style={styles.delContainer}>
           <Text h2 color={colors.darkBlue}>
