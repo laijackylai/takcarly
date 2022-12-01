@@ -77,7 +77,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
         completed: false,
         starred: starred,
         userID: uid,
-        date: date,
+        date: dateToString(datePicked),
         time: dateToTimeString(),
       }),
     )
@@ -196,13 +196,27 @@ const ContentModal: React.FC<ContentModalProps> = ({
   }, [date]);
 
   const dateToString = (d: Date) => {
-    const dateString =
-      d.getFullYear().toString() +
-      "-" +
-      (d.getMonth() + 1).toString() +
-      "-" +
-      d.getDate().toString();
-    return dateString;
+    let monthStr;
+    let dayStr;
+
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+
+    const yearStr = year.toString();
+    if (month < 10) {
+      monthStr = "0" + month.toString();
+    } else {
+      monthStr = month.toString();
+    }
+    if (day < 10) {
+      dayStr = "0" + day.toString();
+    } else {
+      dayStr = day.toString();
+    }
+
+    const datetimeStr = yearStr + "-" + monthStr + "-" + dayStr;
+    return datetimeStr;
   };
 
   const dateToTimeString = () => {

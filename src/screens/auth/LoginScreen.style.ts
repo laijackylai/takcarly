@@ -28,6 +28,7 @@ export default (theme: ExtendedTheme) => {
     },
     input: {
       fontSize: 20,
+      alignItems: "center",
     },
     btns: {
       justifyContent: "center",

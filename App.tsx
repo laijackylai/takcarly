@@ -15,8 +15,6 @@ import { NotificationProvider } from "react-native-internal-notification";
 
 LogBox.ignoreAllLogs();
 
-Amplify.configure(awsExports);
-
 const App = () => {
   const scheme = useColorScheme();
   const isDarkMode = scheme === "dark";
@@ -42,6 +40,10 @@ const App = () => {
     }
   };
 
+  const configureAWS = async () => {
+    await Amplify.configure(awsExports);
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -52,7 +54,7 @@ const App = () => {
         storeData("user", "null");
       }
     };
-
+    configureAWS();
     getData();
   }, []);
 

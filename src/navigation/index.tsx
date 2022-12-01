@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
@@ -16,7 +16,7 @@ import ProfileScreen from "@screens/profile/ProfileScreen";
 import NotificationScreen from "@screens/notification/NotificationScreen";
 import DetailScreen from "@screens/detail/DetailScreen";
 import LoginScreen from "@screens/auth/LoginScreen";
-import { DataStore, Hub } from "aws-amplify";
+import { Analytics, DataStore, Hub } from "aws-amplify";
 import ElderlyLinkScreen from "@screens/auth/ElderlyLinkScreen";
 import CaretakerLinkScreen from "@screens/auth/CaretakerLinkScreen";
 import * as NavigationService from "react-navigation-helpers";
@@ -71,17 +71,15 @@ const Navigation = () => {
     const { event } = payload;
     switch (event) {
       case "autoSignIn": {
-        setSignedIn(true);
         const user = payload.data;
-        signInFlow(user);
+        if (user) signInFlow(user);
         break;
       }
       case "autoSignIn_failure":
         break;
       case "signIn": {
-        setSignedIn(true);
         const user = payload.data;
-        signInFlow(user);
+        if (user) signInFlow(user);
         break;
       }
       case "signOut":
@@ -103,7 +101,17 @@ const Navigation = () => {
         checkLinkedElderly(userData[0]);
         saveUser(userData[0]);
         subscribeToUser(userData[0].id);
+        setSignedIn(true);
       }
+
+      // aws analytics
+      Analytics.autoTrack("session", {
+        enable: true,
+        attributes: {
+          name: name,
+        },
+      });
+      console.info("aws analytics setup");
     }
   };
 
@@ -140,27 +148,32 @@ const Navigation = () => {
   };
 
   const configureNotifications = () => {
-    PushNotification.requestIOSPermissions();
+    console.info("[notification] configuring...");
+    if (Platform.OS === "ios") {
+      PushNotification.requestIOSPermissions();
+    }
 
     // get the notification data when notification is received
     PushNotification.onNotification((notification: any) => {
       // Note that the notification object structure is different from Android and IOS
-      console.log("in app notification", notification);
+      console.info("[notification] notification received: ", notification);
 
       // required on iOS only
-      // eslint-disable-next-line import/no-named-as-default-member
-      notification.finish(PushNotificationIOS.FetchResult.NoData);
+      if (Platform.OS === "ios") {
+        // eslint-disable-next-line import/no-named-as-default-member
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      }
     });
 
     // get the registration token
     // This will only be triggered when the token is generated or updated.
-    PushNotification.onRegister((token: any) => {
-      console.log("in app registration", token);
+    PushNotification.onRegister(async (token: any) => {
+      console.info(`[notification] ${Platform.OS} app device token: `, token);
     });
 
     // get the notification data when notification is opened
     PushNotification.onNotificationOpened((notification: any) => {
-      console.log("the notification is opened", notification);
+      console.info("[notification] the notification is opened: ", notification);
     });
   };
 
