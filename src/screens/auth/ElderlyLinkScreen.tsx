@@ -76,7 +76,9 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
 
   useEffect(() => {
     // nav to elderly screen
-    if (linked) console.log("linked");
+    if (linked) {
+      console.log("linked");
+    }
   }, [linked]);
 
   return (

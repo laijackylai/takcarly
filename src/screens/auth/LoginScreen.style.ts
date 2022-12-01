@@ -4,11 +4,13 @@ import { ScreenWidth, ScreenHeight } from "@freakycoder/react-native-helpers";
 
 interface Style {
   container: ViewStyle;
+  loginText: ViewStyle;
   textInput: ViewStyle;
   input: ViewStyle;
   btns: ViewStyle;
   elderlyBtn: ViewStyle;
   signupBtn: ViewStyle;
+  backgroundImg: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -20,6 +22,7 @@ export default (theme: ExtendedTheme) => {
       justifyContent: "space-evenly",
       backgroundColor: colors.background,
     },
+    loginText: {},
     textInput: {
       alignItems: "center",
       width: ScreenWidth,
@@ -44,6 +47,15 @@ export default (theme: ExtendedTheme) => {
     signupBtn: {
       borderBottomColor: colors.text,
       borderBottomWidth: 1,
+    },
+    backgroundImg: {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      width: ScreenWidth,
+      height: ScreenHeight,
+      position: "absolute",
     },
   });
 };

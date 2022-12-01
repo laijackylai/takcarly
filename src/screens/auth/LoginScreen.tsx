@@ -38,7 +38,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h1 bold color={colors.darkBlue}>
+      <Text h1 bold color={colors.darkBlue} style={styles.loginText}>
         {localStrings.login}
       </Text>
       <View style={styles.textInput}>

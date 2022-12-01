@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { PermissionsAndroid, Platform, useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, useTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /**
@@ -27,6 +27,7 @@ import SignupScreen from "@screens/auth/SignupScreen";
 import { PushNotification } from "@aws-amplify/pushnotification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { Notifications } from "react-native-notifications";
+import SplashScreen from "react-native-splash-screen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -60,9 +61,6 @@ const RenderProfileStack = () => {
 const Navigation = () => {
   const scheme = useColorScheme();
   const isDarkMode = scheme === "dark";
-
-  const theme = useTheme();
-  const { colors } = theme;
 
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [elderlyLinked, setElderlyLinked] = useState<boolean>(false);
@@ -198,10 +196,20 @@ const Navigation = () => {
     PushNotification.onNotificationOpened((notification: any) => {
       console.info("[notification] the notification is opened: ", notification);
     });
+    return true;
+  };
+
+  const storeData = async (key: string, value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(key, jsonValue);
+    } catch (e) {
+      // saving error
+    }
   };
 
   useEffect(() => {
-    const run = async () => {
+    const handleUser = async () => {
       // _clearAsyncStorage();
       const currentUser = await AsyncStorage.getItem("user");
       const uid = await AsyncStorage.getItem("uid");
@@ -210,9 +218,22 @@ const Navigation = () => {
         subscribeToUser(uid);
         checkLinkedElderly(JSON.parse(currentUser));
       }
+      return true;
+    };
+    const getData = async () => {
+      const jsonValue = await AsyncStorage.getItem("user");
+      if (jsonValue === null) storeData("user", "null");
+      return true;
+    };
+    const run = async () => {
+      const bool1 = await getData();
+      const bool2 = await handleUser();
+      const bool3 = await configureNotifications();
+      if (bool1 && bool2 && bool3) {
+        SplashScreen.hide();
+      }
     };
     run();
-    configureNotifications();
   }, []);
 
   useEffect((): any => {
