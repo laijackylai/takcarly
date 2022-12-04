@@ -12,4 +12,5 @@ export const SCREENS = {
   SIGNUP: "Signup",
   ELDERLYLINK: "ElderlyLink",
   CARETAKERLINK: "CaretakerLink",
+  ELDERLYSCREEN: "ElderlyScreen",
 };

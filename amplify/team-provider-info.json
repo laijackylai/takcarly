@@ -20,6 +20,10 @@
         "takcarlySignUpAutoConfirm": {
           "deploymentBucketName": "amplify-takcarly-staging-142925-deployment",
           "s3Key": "amplify-builds/takcarlySignUpAutoConfirm-69415a647154416f3376-build.zip"
+        },
+        "takcarlyPushReminderNotification": {
+          "deploymentBucketName": "amplify-takcarly-staging-142925-deployment",
+          "s3Key": "amplify-builds/takcarlyPushReminderNotification-5772516a527430425754-build.zip"
         }
       },
       "api": {
@@ -29,8 +33,7 @@
         "takcarly": {},
         "Pinpoint": {
           "Name": "takcarly-staging",
-          "Id": "c19b49d258de4f6c98f91e1d9184f07e",
-          "Region": "ap-southeast-1"
+          "Id": "c19b49d258de4f6c98f91e1d9184f07e"
         }
       }
     }

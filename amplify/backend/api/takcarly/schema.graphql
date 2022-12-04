@@ -1,3 +1,11 @@
+type Elderly @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  code: String!
+  key: String!
+  device: String!
+  userID: ID! @index(name: "byUser")
+}
+
 type ScheduledItem @model @auth(rules: [{allow: public}]) {
   id: ID!
   title: String!
@@ -11,16 +19,10 @@ type ScheduledItem @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser")
 }
 
-type Elderly @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  code: String!
-  userID: ID! @index(name: "byUser")
-}
-
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
-  Elderlies: [Elderly] @hasMany(indexName: "byUser", fields: ["id"])
   ScheduledItems: [ScheduledItem] @hasMany(indexName: "byUser", fields: ["id"])
+  Elderlies: [Elderly] @hasMany(indexName: "byUser", fields: ["id"])
 }
  

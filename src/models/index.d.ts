@@ -2,16 +2,42 @@ import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
-type ScheduledItemMetaData = {
+type ElderlyMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type ElderlyMetaData = {
+type ScheduledItemMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
 type UserMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type EagerElderly = {
+  readonly id: string;
+  readonly code: string;
+  readonly key: string;
+  readonly device: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyElderly = {
+  readonly id: string;
+  readonly code: string;
+  readonly key: string;
+  readonly device: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Elderly = LazyLoading extends LazyLoadingDisabled ? EagerElderly : LazyElderly
+
+export declare const Elderly: (new (init: ModelInit<Elderly, ElderlyMetaData>) => Elderly) & {
+  copyOf(source: Elderly, mutator: (draft: MutableModel<Elderly, ElderlyMetaData>) => MutableModel<Elderly, ElderlyMetaData> | void): Elderly;
 }
 
 type EagerScheduledItem = {
@@ -50,33 +76,11 @@ export declare const ScheduledItem: (new (init: ModelInit<ScheduledItem, Schedul
   copyOf(source: ScheduledItem, mutator: (draft: MutableModel<ScheduledItem, ScheduledItemMetaData>) => MutableModel<ScheduledItem, ScheduledItemMetaData> | void): ScheduledItem;
 }
 
-type EagerElderly = {
-  readonly id: string;
-  readonly code: string;
-  readonly userID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyElderly = {
-  readonly id: string;
-  readonly code: string;
-  readonly userID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Elderly = LazyLoading extends LazyLoadingDisabled ? EagerElderly : LazyElderly
-
-export declare const Elderly: (new (init: ModelInit<Elderly, ElderlyMetaData>) => Elderly) & {
-  copyOf(source: Elderly, mutator: (draft: MutableModel<Elderly, ElderlyMetaData>) => MutableModel<Elderly, ElderlyMetaData> | void): Elderly;
-}
-
 type EagerUser = {
   readonly id: string;
   readonly name: string;
-  readonly Elderlies?: (Elderly | null)[] | null;
   readonly ScheduledItems?: (ScheduledItem | null)[] | null;
+  readonly Elderlies?: (Elderly | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -84,8 +88,8 @@ type EagerUser = {
 type LazyUser = {
   readonly id: string;
   readonly name: string;
-  readonly Elderlies: AsyncCollection<Elderly>;
   readonly ScheduledItems: AsyncCollection<ScheduledItem>;
+  readonly Elderlies: AsyncCollection<Elderly>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -1,16 +1,17 @@
+import { ScreenHeight, ScreenWidth } from "@freakycoder/react-native-helpers";
+import { ExtendedTheme } from "@react-navigation/native";
 import {
   ViewStyle,
   StyleSheet,
-  TextStyle,
-  ImageStyle,
   Platform,
   StatusBar,
+  TextStyle,
+  ImageStyle,
 } from "react-native";
-import { ExtendedTheme } from "@react-navigation/native";
-import { ScreenHeight, ScreenWidth } from "@freakycoder/react-native-helpers";
 
 interface Style {
   container: ViewStyle;
+  titleTop: ViewStyle;
   calendarStrip: ViewStyle;
   titleTextStyle: TextStyle;
   buttonStyle: ViewStyle;
@@ -40,9 +41,13 @@ export default (theme: ExtendedTheme) => {
   return StyleSheet.create<Style>({
     container: {
       flex: 1,
+      backgroundColor: colors.background,
       alignItems: "center",
-      // backgroundColor: colors.background,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    titleTop: {
+      paddingTop: 5,
+      paddingBottom: 15,
     },
     calendarStrip: {
       width: 0.9 * ScreenWidth,

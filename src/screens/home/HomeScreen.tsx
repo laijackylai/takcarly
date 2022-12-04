@@ -18,10 +18,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DataStore } from "aws-amplify";
 import { ScheduledItem } from "models";
 import ContentModal from "./ContentModal";
+import axios from "axios";
+import { useNotification } from "react-native-internal-notification";
 
 interface HomeScreenProps { }
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
+  const noti = useNotification();
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -74,6 +77,36 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       setSchedule(scheduledItems);
     } else {
       setSchedule([]);
+    }
+  };
+
+  const sendRemindNotification = async (
+    title: string,
+    body: string,
+    key: string,
+    device: string,
+  ) => {
+    const lamdbaUrl =
+      "https://qad2nhxgkfxgcd3priedbzgfae0pqubj.lambda-url.ap-southeast-1.on.aws/";
+    const params = {
+      title: title,
+      body: body,
+      key: key,
+      device: device,
+    };
+    const res = await axios.get(lamdbaUrl, { params: params });
+    if (res.status === 200) {
+      noti.showNotification({
+        title: localStrings.successSendNoti,
+        icon: (
+          <Icon
+            name="hand-okay"
+            type="MaterialCommunityIcons"
+            color={colors.green}
+            size={35}
+          />
+        ),
+      });
     }
   };
 
@@ -149,6 +182,14 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   </View>
                 )}
               </View>
+              <TouchableOpacity onPress={() => { }} style={styles.bell}>
+                <Icon
+                  name="bell"
+                  type="MaterialCommunityIcons"
+                  size={30}
+                  color={colors.text}
+                />
+              </TouchableOpacity>
             </View>
           ))}
         </ScrollView>

@@ -44,6 +44,8 @@ export const localStrings = new LocalizedStrings({
     successAddSchedule: "Successfully added new schedule!",
     successUpdateSchedule: "Successfully updated selected schedule",
     successDeleteSchedule: "Successfully deleted selected schedule",
+    successSendNoti: "Successfully sent remind notification",
+    elderlyScreen: "Elderly",
   },
   chi: {
     yes: "是",
@@ -87,6 +89,8 @@ export const localStrings = new LocalizedStrings({
     successAddSchedule: "成功增加新事項",
     successUpdateSchedule: "成功更新事項",
     successDeleteSchedule: "成功刪除事項",
+    successSendNoti: "成功提醒老人家",
+    elderlyScreen: "老人家",
   },
 });
 // ? Set the language manually

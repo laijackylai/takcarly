@@ -28,6 +28,7 @@ import { PushNotification } from "@aws-amplify/pushnotification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { Notifications } from "react-native-notifications";
 import SplashScreen from "react-native-splash-screen";
+import ElderlyScreen from "@screens/elderly/ElderlyScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -191,6 +192,7 @@ const Navigation = () => {
 
     PushNotification.onRegister(async (token: any) => {
       console.info(`[notification] ${Platform.OS} app device token: `, token);
+      if (token) await AsyncStorage.setItem("token", token);
     });
 
     PushNotification.onNotificationOpened((notification: any) => {
@@ -273,6 +275,7 @@ const Navigation = () => {
           name={SCREENS.ELDERLYLINK}
           component={ElderlyLinkScreen}
         />
+        <Stack.Screen name={SCREENS.ELDERLYSCREEN} component={ElderlyScreen} />
       </Stack.Navigator>
     );
   };
