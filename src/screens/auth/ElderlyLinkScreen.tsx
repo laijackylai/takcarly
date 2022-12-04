@@ -10,7 +10,7 @@ import Text from "@shared-components/text-wrapper/TextWrapper";
 import { DataStore } from "aws-amplify";
 import { Elderly } from "models";
 import { localStrings } from "shared/localization";
-import * as NavigationService from 'react-navigation-helpers';
+import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
 
 interface ElderlyLinkScreenProps { }
@@ -20,7 +20,6 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [linkCode, setLinkCode] = useState<string>("");
-  const [linked, setLinked] = useState<boolean>(false);
 
   const getData = async (): Promise<void> => {
     const code = await AsyncStorage.getItem("elderlyCode");
@@ -81,6 +80,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       if (users && users.length > 0) {
         const linkedUser = users[0].userID;
         if (linkedUser) {
+          console.log(linkedUser);
           NavigationService.navigate(SCREENS.ELDERLYSCREEN, {
             uid: linkedUser,
           });

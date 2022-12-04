@@ -5,6 +5,7 @@ import { ScreenWidth } from "@freakycoder/react-native-helpers";
 interface Style {
   container: ViewStyle;
   textInput: ViewStyle;
+  btn: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -20,6 +21,11 @@ export default (theme: ExtendedTheme) => {
       alignItems: "center",
       height: 0.15 * ScreenWidth,
       justifyContent: "space-between",
+    },
+    btn: {
+      padding: 10,
+      backgroundColor: colors.darkBlue,
+      borderRadius: 10,
     },
   });
 };

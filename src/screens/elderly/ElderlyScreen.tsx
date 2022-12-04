@@ -57,8 +57,8 @@ const ElderlyScreen: React.FC<ElderlyScreenProps> = ({ route }) => {
       {
         sort: (i) => i.time("ASCENDING"),
       },
-    );
-    if (scheduledItems.length > 0) {
+    ).catch((e) => console.error(e));
+    if (scheduledItems && scheduledItems.length > 0) {
       setSchedule(scheduledItems);
     } else {
       setSchedule([]);

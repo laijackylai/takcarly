@@ -1,6 +1,12 @@
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import React, { useMemo, useState } from "react";
-import { Alert, Button, SafeAreaView, TextInput, View } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTheme } from "@react-navigation/native";
 
 import createStyles from "./SignupScreen.style";
@@ -37,7 +43,7 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
             createNewUser(res.user.getUsername());
           }
         })
-        .catch((e) => Alert.alert("Error", e));
+        .catch((e) => Alert.alert(`Error: ${e}`));
     } catch (error) {
       console.log("error signing up", error);
     }
@@ -73,7 +79,9 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
           onChangeText={(t) => setPw(t)}
         />
       </View>
-      <Button title={localStrings.signup} onPress={signup} />
+      <TouchableOpacity onPress={signup} style={styles.btn}>
+        <Text h2 bold color={colors.white}>{localStrings.signup}</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
