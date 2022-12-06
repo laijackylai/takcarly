@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import createStyles from "./ElderlyLinkScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { DataStore } from "aws-amplify";
-import { Elderly } from "models";
+import { Elderly, User } from "models";
 import { localStrings } from "shared/localization";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
@@ -20,6 +20,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [linkCode, setLinkCode] = useState<string>("");
+  const [linked, setLinked] = useState<boolean>(false);
 
   const getData = async (): Promise<void> => {
     const code = await AsyncStorage.getItem("elderlyCode");
@@ -34,9 +35,9 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       await DataStore.save(
         new Elderly({
           code: newCode,
-          userID: "null",
           key: token,
           device: Platform.OS,
+          linked: false,
         }),
       )
         .catch((e) => console.error(e))
@@ -72,20 +73,25 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   const checkLinked = async (): Promise<void> => {
     const code = await AsyncStorage.getItem("elderlyCode");
     if (code) {
-      const users = await DataStore.query(
-        Elderly,
-        (e) => e.code.eq(JSON.parse(code)),
-        { limit: 1 },
-      ).catch((e) => console.error(e));
-      if (users && users.length > 0) {
-        const linkedUser = users[0].userID;
-        if (linkedUser) {
-          console.log(linkedUser);
-          NavigationService.navigate(SCREENS.ELDERLYSCREEN, {
-            uid: linkedUser,
-          });
+      DataStore.observeQuery(Elderly, (e) =>
+        e.code.eq(JSON.parse(code)),
+      ).subscribe(async (snapshot) => {
+        const { items, isSynced } = snapshot;
+        if (items && items.length > 0) {
+          const [elderly] = items;
+          if (elderly.linked) setLinked(true);
+          const linkedUser = await DataStore.query(
+            User,
+            (u) => u.userElderlyId.eq(elderly.id),
+            { limit: 1 },
+          );
+          if (linkedUser) {
+            NavigationService.navigate(SCREENS.ELDERLYSCREEN, {
+              uid: linkedUser[0].id,
+            });
+          }
         }
-      }
+      });
     }
   };
 

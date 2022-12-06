@@ -20,7 +20,7 @@ import { Analytics, DataStore, Hub } from "aws-amplify";
 import ElderlyLinkScreen from "@screens/auth/ElderlyLinkScreen";
 import CaretakerLinkScreen from "@screens/auth/CaretakerLinkScreen";
 import * as NavigationService from "react-navigation-helpers";
-import { Elderly, User } from "models";
+import { User } from "models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveUser } from "shared/functions/saveUser";
 import SignupScreen from "@screens/auth/SignupScreen";
@@ -125,12 +125,8 @@ const Navigation = () => {
   };
 
   const checkLinkedElderly = async (userData: User) => {
-    const { id } = userData;
-    const linkedElderies = await DataStore.query(Elderly, (e) =>
-      e.userID.eq(id),
-    ).catch((e) => console.error(e));
-    if (linkedElderies && linkedElderies.length > 0) {
-      console.info(linkedElderies.length, "elderly linked");
+    const { userElderlyId } = userData;
+    if (userElderlyId) {
       setElderlyLinked(true);
       NavigationService.navigate(SCREENS.HOME);
     } else {

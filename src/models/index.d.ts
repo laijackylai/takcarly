@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
 type ElderlyMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -19,7 +19,7 @@ type EagerElderly = {
   readonly code: string;
   readonly key: string;
   readonly device: string;
-  readonly userID: string;
+  readonly linked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -29,7 +29,7 @@ type LazyElderly = {
   readonly code: string;
   readonly key: string;
   readonly device: string;
-  readonly userID: string;
+  readonly linked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -80,18 +80,20 @@ type EagerUser = {
   readonly id: string;
   readonly name: string;
   readonly ScheduledItems?: (ScheduledItem | null)[] | null;
-  readonly Elderlies?: (Elderly | null)[] | null;
+  readonly Elderly?: Elderly | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly userElderlyId?: string | null;
 }
 
 type LazyUser = {
   readonly id: string;
   readonly name: string;
   readonly ScheduledItems: AsyncCollection<ScheduledItem>;
-  readonly Elderlies: AsyncCollection<Elderly>;
+  readonly Elderly: AsyncItem<Elderly | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly userElderlyId?: string | null;
 }
 
 export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser : LazyUser

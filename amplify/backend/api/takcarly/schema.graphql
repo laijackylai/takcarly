@@ -3,7 +3,7 @@ type Elderly @model @auth(rules: [{allow: public}]) {
   code: String!
   key: String!
   device: String!
-  userID: ID! @index(name: "byUser")
+  linked: Boolean!
 }
 
 type ScheduledItem @model @auth(rules: [{allow: public}]) {
@@ -23,6 +23,6 @@ type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   ScheduledItems: [ScheduledItem] @hasMany(indexName: "byUser", fields: ["id"])
-  Elderlies: [Elderly] @hasMany(indexName: "byUser", fields: ["id"])
+  Elderly: Elderly @hasOne
 }
  

@@ -20,6 +20,7 @@ import { Elderly, ScheduledItem } from "models";
 import ContentModal from "./ContentModal";
 import axios from "axios";
 import { useNotification } from "react-native-internal-notification";
+import { getUser } from "shared/functions/getUser";
 
 interface HomeScreenProps { }
 
@@ -81,16 +82,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   const sendRemindNotification = async (title: string, body: string) => {
-    const uid = await AsyncStorage.getItem("uid");
-    if (!uid) return;
-    const linkedElderlies = await DataStore.query(Elderly, (e) =>
-      e.userID.eq(uid),
-    );
-    if (linkedElderlies.length === 0) return;
+    const { userElderlyId } = await getUser();
+    if (!userElderlyId) return;
 
-    // eslint-disable-next-line prefer-destructuring
-    const { key, device } = linkedElderlies[0];
+    const linkedElderly = await DataStore.query(Elderly, userElderlyId);
+    if (!linkedElderly) return;
 
+    const { key, device } = linkedElderly;
     const lamdbaUrl =
       "https://qad2nhxgkfxgcd3priedbzgfae0pqubj.lambda-url.ap-southeast-1.on.aws/";
     const params = {

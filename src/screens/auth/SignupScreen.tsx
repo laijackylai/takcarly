@@ -61,7 +61,7 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h1 color={colors.text}>
+      <Text h1 bold color={colors.text}>
         {localStrings.signup}
       </Text>
       <View style={styles.textInput}>
@@ -80,7 +80,9 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
         />
       </View>
       <TouchableOpacity onPress={signup} style={styles.btn}>
-        <Text h2 bold color={colors.white}>{localStrings.signup}</Text>
+        <Text h2 bold color={colors.white}>
+          {localStrings.signup}
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

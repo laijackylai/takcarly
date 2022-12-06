@@ -48,26 +48,29 @@ const ElderlyScreen: React.FC<ElderlyScreenProps> = ({ route }) => {
     return datetimeStr;
   };
 
-  const getData = async () => {
+  useEffect(() => {
     const date = dateToString(new Date());
     if (uid == null) return;
-    const scheduledItems = await DataStore.query(
+    const subscription = DataStore.observeQuery(
       ScheduledItem,
       (item) => item.and((i) => [i.userID.eq(uid), i.date.eq(date)]),
       {
         sort: (i) => i.time("ASCENDING"),
       },
-    ).catch((e) => console.error(e));
-    if (scheduledItems && scheduledItems.length > 0) {
-      setSchedule(scheduledItems);
-    } else {
-      setSchedule([]);
-    }
-  };
+    ).subscribe((snapshot) => {
+      const { items, isSynced } = snapshot;
+      console.info("Scheduled data is synced: ", isSynced);
+      if (items && items.length > 0) {
+        setSchedule(items);
+      } else {
+        setSchedule([]);
+      }
+    });
 
-  useEffect(() => {
-    getData();
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [uid]);
 
   return (
     <SafeAreaView style={styles.container}>

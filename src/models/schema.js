@@ -31,10 +31,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "userID": {
-                    "name": "userID",
+                "linked": {
+                    "name": "linked",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "Boolean",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -61,15 +61,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byUser",
-                        "fields": [
-                            "userID"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -245,18 +236,18 @@ export const schema = {
                         "associatedWith": "userID"
                     }
                 },
-                "Elderlies": {
-                    "name": "Elderlies",
-                    "isArray": true,
+                "Elderly": {
+                    "name": "Elderly",
+                    "isArray": false,
                     "type": {
                         "model": "Elderly"
                     },
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "userID"
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "userElderlyId"
                     }
                 },
                 "createdAt": {
@@ -274,6 +265,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "userElderlyId": {
+                    "name": "userElderlyId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -305,5 +303,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "14a1f7309670b02a2ab85488b3a716af"
+    "version": "890a634b9726e641d47588b26b428037"
 };
