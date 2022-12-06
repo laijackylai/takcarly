@@ -70,7 +70,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 #endif
 
   NSDictionary *initProps = [self prepareInitialProps];
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"RNTypescriptBoilerplate", initProps);
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"takcarly", initProps);
 
   if (@available(iOS 13.0, *)) {
     rootView.backgroundColor = [UIColor systemBackgroundColor];

@@ -54,7 +54,7 @@ android {
                     cppFlags "-std=c++17"
                     // Make sure this target name is the same you specify inside the
                     // src/main/jni/Android.mk file for the `LOCAL_MODULE` variable.
-                    targets "rntypescriptboilerplate_appmodules"
+                    targets "takcarly_appmodules"
                 }
             }
             if (!enableSeparateBuildPerCPUArchitecture) {

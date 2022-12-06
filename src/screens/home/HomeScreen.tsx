@@ -16,7 +16,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Moment } from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DataStore } from "aws-amplify";
-import { ScheduledItem } from "models";
+import { Elderly, ScheduledItem } from "models";
 import ContentModal from "./ContentModal";
 import axios from "axios";
 import { useNotification } from "react-native-internal-notification";
@@ -80,12 +80,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     }
   };
 
-  const sendRemindNotification = async (
-    title: string,
-    body: string,
-    key: string,
-    device: string,
-  ) => {
+  const sendRemindNotification = async (title: string, body: string) => {
+    const uid = await AsyncStorage.getItem("uid");
+    if (!uid) return;
+    const linkedElderlies = await DataStore.query(Elderly, (e) =>
+      e.userID.eq(uid),
+    );
+    if (linkedElderlies.length === 0) return;
+
+    // eslint-disable-next-line prefer-destructuring
+    const { key, device } = linkedElderlies[0];
+
     const lamdbaUrl =
       "https://qad2nhxgkfxgcd3priedbzgfae0pqubj.lambda-url.ap-southeast-1.on.aws/";
     const params = {
@@ -182,7 +187,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   </View>
                 )}
               </View>
-              <TouchableOpacity onPress={() => { }} style={styles.bell}>
+              <TouchableOpacity
+                onPress={() => sendRemindNotification(s.title, s.description)}
+                style={styles.bell}
+              >
                 <Icon
                   name="bell"
                   type="MaterialCommunityIcons"

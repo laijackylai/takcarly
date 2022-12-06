@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier="primary"
                BlueprintIdentifier="13B07F861A680F5B00A75B9A"
-               BuildableName="RNTypescriptBoilerplate.app"
-               BlueprintName="RNTypescriptBoilerplate"
-               ReferencedContainer="container:RNTypescriptBoilerplate.xcodeproj"></BuildableReference>
+               BuildableName="takcarly.app"
+               BlueprintName="takcarly"
+               ReferencedContainer="container:takcarly.xcodeproj"></BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
@@ -32,9 +32,9 @@
             <BuildableReference
                BuildableIdentifier="primary"
                BlueprintIdentifier="00E356ED1AD99517003FC87E"
-               BuildableName="RNTypescriptBoilerplateTests.xctest"
-               BlueprintName="RNTypescriptBoilerplateTests"
-               ReferencedContainer="container:RNTypescriptBoilerplate.xcodeproj"></BuildableReference>
+               BuildableName="takcarlyTests.xctest"
+               BlueprintName="takcarlyTests"
+               ReferencedContainer="container:takcarly.xcodeproj"></BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier="primary"
             BlueprintIdentifier="13B07F861A680F5B00A75B9A"
-            BuildableName="RNTypescriptBoilerplate.app"
-            BlueprintName="RNTypescriptBoilerplate"
-            ReferencedContainer="container:RNTypescriptBoilerplate.xcodeproj"></BuildableReference>
+            BuildableName="takcarly.app"
+            BlueprintName="takcarly"
+            ReferencedContainer="container:takcarly.xcodeproj"></BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier="primary"
             BlueprintIdentifier="13B07F861A680F5B00A75B9A"
-            BuildableName="RNTypescriptBoilerplate.app"
-            BlueprintName="RNTypescriptBoilerplate"
-            ReferencedContainer="container:RNTypescriptBoilerplate.xcodeproj"></BuildableReference>
+            BuildableName="takcarly.app"
+            BlueprintName="takcarly"
+            ReferencedContainer="container:takcarly.xcodeproj"></BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
