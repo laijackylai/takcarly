@@ -26,7 +26,6 @@ export type AmplifyDependentResourcesAttributes = {
     },
     "api": {
         "takcarly": {
-            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }

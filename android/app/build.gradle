@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.laijackylai"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdk rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -162,6 +162,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     implementation project(':react-native-notifications')
 
     implementation platform('com.google.firebase:firebase-bom:31.1.0')

@@ -86,7 +86,7 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
             { limit: 1 },
           );
           if (linkedUser) {
-            NavigationService.navigate(SCREENS.ELDERLYSCREEN, {
+            NavigationService.navigate("ElderlyScreen", {
               uid: linkedUser[0].id,
             });
           }

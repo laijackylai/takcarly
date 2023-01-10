@@ -129,6 +129,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           </TouchableOpacity>
         </View>
         <CalendarStrip
+          startingDate={new Date()}
           selectedDate={new Date()}
           onDateSelected={dateSelect}
           scrollable
@@ -186,7 +187,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                 )}
               </View>
               <TouchableOpacity
-                onPress={() => sendRemindNotification(s.title, s.description)}
+                onPress={() =>
+                  sendRemindNotification(
+                    s.title,
+                    s.description + " @ " + s.time,
+                  )
+                }
                 style={styles.bell}
               >
                 <Icon

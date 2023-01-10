@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Platform, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
  * ? Local & Shared Imports
  */
 import { SCREENS } from "@shared-constants";
-import { LightTheme, DarkTheme, palette } from "@theme/themes";
+import { LightTheme, palette } from "@theme/themes";
 // ? Screens
 import HomeScreen from "@screens/home/HomeScreen";
 import ProfileScreen from "@screens/profile/ProfileScreen";
@@ -24,9 +24,6 @@ import { User } from "models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveUser } from "shared/functions/saveUser";
 import SignupScreen from "@screens/auth/SignupScreen";
-import { PushNotification } from "@aws-amplify/pushnotification";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import { Notifications } from "react-native-notifications";
 import SplashScreen from "react-native-splash-screen";
 import ElderlyScreen from "@screens/elderly/ElderlyScreen";
 
@@ -128,13 +125,13 @@ const Navigation = () => {
     const { userElderlyId } = userData;
     if (userElderlyId) {
       setElderlyLinked(true);
-      NavigationService.navigate(SCREENS.HOME);
+      // NavigationService.navigate("Home");
     } else {
       console.info("no elderly linked");
       setElderlyLinked(false);
-      NavigationService.navigate(SCREENS.PROFILE, {
-        screen: SCREENS.CARETAKERLINK,
-      });
+      // NavigationService.navigate("Profile", {
+      //   screen: SCREENS.CARETAKERLINK,
+      // });
     }
   };
 
@@ -142,60 +139,61 @@ const Navigation = () => {
     await AsyncStorage.clear();
   };
 
-  const configureNotifications = async () => {
-    console.info("[notification] configuring...");
-    if (Platform.OS === "ios") {
-      PushNotification.requestIOSPermissions();
-    }
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannel({
-        channelId: "takcarly",
-        name: "Takcarly",
-        importance: 5,
-        description: "Takcarly notification channel",
-        enableLights: true,
-        enableVibration: true,
-        // groupId: 'my-group', // optional
-        // groupName: 'My Group', // optional, will be presented in Android OS notification permission
-        showBadge: true,
-        // soundFile: 'custom_sound.mp3',  // place this in <project_root>/android/app/src/main/res/raw/custom_sound.mp3
-        vibrationPattern: [200, 1000, 500, 1000, 500],
-      });
-    }
+  // const configureNotifications = async () => {
+  //   console.info("[notification] configuring...");
+  //   if (Platform.OS === "ios") {
+  //     PushNotification.requestIOSPermissions();
+  //   }
+  //   if (Platform.OS === "android") {
+  //     Notifications.setNotificationChannel({
+  //       channelId: "takcarly",
+  //       name: "Takcarly",
+  //       importance: 5,
+  //       description: "Takcarly notification channel",
+  //       enableLights: true,
+  //       enableVibration: true,
+  //       // groupId: 'my-group', // optional
+  //       // groupName: 'My Group', // optional, will be presented in Android OS notification permission
+  //       showBadge: true,
+  // eslint-disable-next-line max-len
+  //       // soundFile: 'custom_sound.mp3',  // place this in <project_root>/android/app/src/main/res/raw/custom_sound.mp3
+  //       vibrationPattern: [200, 1000, 500, 1000, 500],
+  //     });
+  //   }
 
-    PushNotification.onNotification((notification: any) => {
-      console.info("[notification] notification received: ", notification);
+  //   PushNotification.onNotification((notification: any) => {
+  //     console.info("[notification] notification received: ", notification);
 
-      if (Platform.OS === "ios") {
-        // eslint-disable-next-line import/no-named-as-default-member
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
-      }
-      if (Platform.OS === "android") {
-        if (notification.title && notification.body) {
-          Notifications.postLocalNotification({
-            title: notification.title,
-            body: notification.body,
-            identifier: "",
-            payload: undefined,
-            sound: "",
-            badge: 0,
-            type: "",
-            thread: "",
-          });
-        }
-      }
-    });
+  //     if (Platform.OS === "ios") {
+  //       // eslint-disable-next-line import/no-named-as-default-member
+  //       notification.finish(PushNotificationIOS.FetchResult.NoData);
+  //     }
+  //     if (Platform.OS === "android") {
+  //       if (notification.title && notification.body) {
+  //         Notifications.postLocalNotification({
+  //           title: notification.title,
+  //           body: notification.body,
+  //           identifier: "",
+  //           payload: undefined,
+  //           sound: "",
+  //           badge: 0,
+  //           type: "",
+  //           thread: "",
+  //         });
+  //       }
+  //     }
+  //   });
 
-    PushNotification.onRegister(async (token: any) => {
-      console.info(`[notification] ${Platform.OS} app device token: `, token);
-      if (token) await AsyncStorage.setItem("token", token);
-    });
+  //   PushNotification.onRegister(async (token: any) => {
+  //     console.info(`[notification] ${Platform.OS} app device token: `, token);
+  //     if (token) await AsyncStorage.setItem("token", token);
+  //   });
 
-    PushNotification.onNotificationOpened((notification: any) => {
-      console.info("[notification] the notification is opened: ", notification);
-    });
-    return true;
-  };
+  //   PushNotification.onNotificationOpened((notification: any) => {
+  //     console.info("[notification] the notification is opened: ", notification);
+  //   });
+  //   return true;
+  // };
 
   const storeData = async (key: string, value: any) => {
     try {
@@ -226,8 +224,8 @@ const Navigation = () => {
     const run = async () => {
       const bool1 = await getData();
       const bool2 = await handleUser();
-      const bool3 = await configureNotifications();
-      if (bool1 && bool2 && bool3) {
+      // const bool3 = await configureNotifications();
+      if (bool1 && bool2) {
         SplashScreen.hide();
       }
     };
@@ -282,7 +280,7 @@ const Navigation = () => {
       onReady={() => {
         isReadyRef.current = true;
       }}
-      theme={isDarkMode ? DarkTheme : LightTheme}
+      theme={LightTheme}
     >
       {!signedIn && renderLoginStack()}
 

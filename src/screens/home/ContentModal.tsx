@@ -22,6 +22,7 @@ import { DataStore } from "aws-amplify";
 import { ScheduledItem } from "models";
 import DatePicker from "react-native-date-picker";
 import { useNotification } from "react-native-internal-notification";
+import PushNotification from "react-native-push-notification";
 
 interface ContentModalProps {
   isVisible: boolean;
@@ -50,7 +51,9 @@ const ContentModal: React.FC<ContentModalProps> = ({
   const [chooseIconModalVisibility, setChooseIconModalVisibility] =
     useState<boolean>(false);
   const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
-  const [datePicked, setDatePicked] = useState<Date>(new Date());
+  const [datePicked, setDatePicked] = useState<Date>(
+    new Date(Date.parse(date)),
+  );
   const [timePickerOpen, setTimePickerOpen] = useState<boolean>(false);
   const [timePicked, setTimePicked] = useState<Date>(new Date());
   const [confirmDeleteModalVisibility, setConfirmDeleteModalVisibility] =
@@ -93,6 +96,13 @@ const ContentModal: React.FC<ContentModalProps> = ({
               size={35}
             />
           ),
+        });
+        PushNotification.localNotificationSchedule({
+          title: title,
+          message: description,
+          date: timePicked,
+          allowWhileIdle: true,
+          repeatTime: 1,
         });
         onBackdropPress();
       });
@@ -248,7 +258,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
     ).catch((e) => console.error(e));
 
     try {
-      if (data && data[0]) {
+      if (data && data[0] && data[0].description) {
         setTitle(data[0].title);
         setDescription(data[0].description);
 
@@ -271,11 +281,11 @@ const ContentModal: React.FC<ContentModalProps> = ({
     if (selectedItemID) return;
     setTitle("");
     setDescription("");
-    setDatePicked(new Date());
+    setDatePicked(new Date(Date.parse(date)));
     setTimePicked(new Date());
     setIcon("white-balance-sunny");
     setStarred(false);
-  }, [selectedItemID]);
+  }, [selectedItemID, date]);
 
   useEffect(() => {
     const dateToBeSet = translateDate();
