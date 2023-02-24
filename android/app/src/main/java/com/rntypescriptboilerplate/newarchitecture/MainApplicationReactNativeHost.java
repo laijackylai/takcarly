@@ -1,4 +1,4 @@
-package com.laijackylai.newarchitecture;
+package com.laijackylai.takcarly.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.laijackylai.BuildConfig;
-import com.laijackylai.newarchitecture.components.MainComponentsRegistry;
-import com.laijackylai.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.laijackylai.takcarly.BuildConfig;
+import com.laijackylai.takcarly.newarchitecture.components.MainComponentsRegistry;
+import com.laijackylai.takcarly.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

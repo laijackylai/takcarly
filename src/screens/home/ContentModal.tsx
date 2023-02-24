@@ -85,7 +85,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
       }),
     )
       .catch((e) => console.error(e))
-      .then(() => {
+      .then((item) => {
         noti.showNotification({
           title: localStrings.successAddSchedule,
           icon: (
@@ -103,6 +103,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
           date: timePicked,
           allowWhileIdle: true,
           repeatTime: 1,
+          id: item?.id,
         });
         onBackdropPress();
       });
@@ -138,6 +139,15 @@ const ContentModal: React.FC<ContentModalProps> = ({
             />
           ),
         });
+        PushNotification.cancelLocalNotification(selectedItem.id);
+        PushNotification.localNotificationSchedule({
+          title: title,
+          message: description,
+          date: timePicked,
+          allowWhileIdle: true,
+          repeatTime: 1,
+          id: selectedItem.id,
+        });
         onBackdropPress();
       })
       .catch((e) => console.error(e));
@@ -164,6 +174,7 @@ const ContentModal: React.FC<ContentModalProps> = ({
             />
           ),
         });
+        PushNotification.cancelLocalNotification(itemToBeDeleted.id);
         setConfirmDeleteModalVisibility(false);
         onBackdropPress();
       });

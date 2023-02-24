@@ -302,6 +302,6 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "codegenVersion": "3.3.2",
+    "codegenVersion": "3.3.5",
     "version": "890a634b9726e641d47588b26b428037"
 };

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1021101843434:android:dc217ca46e650443cd4893",
+        "mobilesdk_app_id": "1:1021101843434:android:b79e135d16ee664fcd4893",
         "android_client_info": {
-          "package_name": "com.laijackylai"
+          "package_name": "com.laijackylai.takcarly"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "1021101843434-7ch3sgp9aig3fgu569jgiodi2muhrj1u.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1021101843434-o7ps5l9g40iotd1e637sj8rgppkp55ot.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.laijackylai.takcarly"
+              }
             }
           ]
         }

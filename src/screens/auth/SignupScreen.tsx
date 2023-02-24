@@ -24,6 +24,12 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
   const [username, setUsername] = useState<string>();
   const [pw, setPw] = useState<string>();
 
+  /**
+   * Sign up a user with the given username and password.
+   * @param {string} username - the username to sign up with.
+   * @param {string} pw - the password to sign up with.
+   * @returns None
+   */
   const signup = async (): Promise<any> => {
     try {
       if (username === undefined || pw === undefined) return;
@@ -49,6 +55,11 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
     }
   };
 
+  /**
+   * Creates a new user in the database.
+   * @param {string} name - the name of the user to create
+   * @returns None
+   */
   const createNewUser = async (name: string) => {
     await DataStore.save(
       new User({

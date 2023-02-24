@@ -1,4 +1,4 @@
-package com.laijackylai.newarchitecture.modules;
+package com.laijackylai.takcarly.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
