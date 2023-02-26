@@ -14,7 +14,7 @@ import { Auth, DataStore } from "aws-amplify";
 import { User } from "models";
 import { localStrings } from "shared/localization";
 
-interface SignupScreenProps { }
+interface SignupScreenProps {}
 
 const SignupScreen: React.FC<SignupScreenProps> = () => {
   const theme = useTheme();

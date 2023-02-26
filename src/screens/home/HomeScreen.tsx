@@ -22,7 +22,7 @@ import axios from "axios";
 import { useNotification } from "react-native-internal-notification";
 import { getUser } from "shared/functions/getUser";
 
-interface HomeScreenProps { }
+interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const noti = useNotification();
@@ -33,10 +33,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [schedule, setSchedule] = useState<ScheduledItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().getFullYear().toString() +
-    "-" +
-    (new Date().getMonth() + 1).toString() +
-    "-" +
-    new Date().getDate().toString(),
+      "-" +
+      (new Date().getMonth() + 1).toString() +
+      "-" +
+      new Date().getDate().toString(),
   );
   const [isModalVisible, setModalVisible] = useState(false);
   const [editType, setEditType] = useState<string>("add");
@@ -65,6 +65,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   const getData = async (selectedDate: string) => {
+    console.info("fetching user schedule");
     const uid = await AsyncStorage.getItem("uid");
     if (uid == null) return;
     const scheduledItems = await DataStore.query(
@@ -114,7 +115,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   useEffect(() => {
-    getData(selectedDate);
+    if (!isModalVisible) getData(selectedDate);
   }, [selectedDate, isModalVisible]);
 
   return (

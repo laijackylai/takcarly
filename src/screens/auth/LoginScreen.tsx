@@ -9,7 +9,7 @@ import { localStrings } from "shared/localization";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
 
-interface LoginScreenProps { }
+interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
   const theme = useTheme();

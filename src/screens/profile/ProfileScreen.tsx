@@ -13,7 +13,7 @@ import { removeUser } from "shared/functions/removeUser";
 import { localStrings } from "shared/localization";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-interface ProfileScreenProps { }
+interface ProfileScreenProps {}
 
 const ProfileScreen: React.FC<ProfileScreenProps> = () => {
   const theme = useTheme();

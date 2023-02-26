@@ -9,6 +9,7 @@ interface Style {
   linkBtn: ViewStyle;
   codeInput: ViewStyle;
   linkedElderlies: ViewStyle;
+  unlinkBtn: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -41,6 +42,13 @@ export default (theme: ExtendedTheme) => {
     },
     linkedElderlies: {
       alignItems: "center",
+      justifyContent: "center",
+    },
+    unlinkBtn: {
+      padding: 10,
+      borderRadius: 10,
+      backgroundColor: colors.calpyse,
+      marginTop: 40,
     },
   });
 };

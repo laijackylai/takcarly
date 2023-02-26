@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Platform, SafeAreaView, View } from "react-native";
+import { Alert, Platform, SafeAreaView, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 /**
@@ -11,9 +11,8 @@ import { DataStore } from "aws-amplify";
 import { Elderly, User } from "models";
 import { localStrings } from "shared/localization";
 import * as NavigationService from "react-navigation-helpers";
-import { SCREENS } from "@shared-constants";
 
-interface ElderlyLinkScreenProps { }
+interface ElderlyLinkScreenProps {}
 
 const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   const theme = useTheme();
@@ -31,7 +30,10 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
       setLinkCode(newCode);
       // save new code into aws amplify
       const token = await AsyncStorage.getItem("token");
-      if (!token) return;
+      if (!token) {
+        Alert.alert("Token not found");
+        return;
+      }
       await DataStore.save(
         new Elderly({
           code: newCode,
@@ -85,7 +87,8 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
             (u) => u.userElderlyId.eq(elderly.id),
             { limit: 1 },
           );
-          if (linkedUser) {
+          if (linkedUser.length > 0) {
+            setLinked(true);
             NavigationService.navigate("ElderlyScreen", {
               uid: linkedUser[0].id,
             });
@@ -98,8 +101,15 @@ const ElderlyLinkScreen: React.FC<ElderlyLinkScreenProps> = () => {
   useEffect(() => {
     // _clearCode();
     getData();
+    // * stupid but it works method
     checkLinked();
-  }, []);
+    const checkLinkedInterval = setInterval(() => {
+      checkLinked();
+    }, 5000);
+    if (linked) {
+      clearInterval(checkLinkedInterval);
+    }
+  }, [linked]);
 
   return (
     <SafeAreaView style={styles.container}>

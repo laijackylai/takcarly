@@ -9,7 +9,7 @@ import createStyles from "./DetailScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
-interface DetailScreenProps { }
+interface DetailScreenProps {}
 
 const DetailScreen: React.FC<DetailScreenProps> = () => {
   const theme = useTheme();

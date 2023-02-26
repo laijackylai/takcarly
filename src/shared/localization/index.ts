@@ -46,6 +46,7 @@ export const localStrings = new LocalizedStrings({
     successDeleteSchedule: "Successfully deleted selected schedule",
     successSendNoti: "Successfully sent remind notification",
     elderlyScreen: "Elderly",
+    unlinkElderly: "Unlink",
   },
   chi: {
     yes: "是",
@@ -91,6 +92,7 @@ export const localStrings = new LocalizedStrings({
     successDeleteSchedule: "成功刪除事項",
     successSendNoti: "成功提醒老人家",
     elderlyScreen: "老人家",
+    unlinkElderly: "取消鏈接",
   },
 });
 // ? Set the language manually

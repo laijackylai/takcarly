@@ -15,7 +15,7 @@ import { useNotification } from "react-native-internal-notification";
 import Icon from "react-native-dynamic-vector-icons";
 import { getUser } from "shared/functions/getUser";
 
-interface CaretakerLinkScreenProps { }
+interface CaretakerLinkScreenProps {}
 
 const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
   const noti = useNotification();
@@ -26,7 +26,19 @@ const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
   const [linkCode, setLinkCode] = useState<string>("");
   const [linkedElderly, setLinkedElderly] = useState<string>();
 
-  const link = async () => {
+  const checkLinkedElderlies = async () => {
+    const user = await getUser();
+    if (!user) return;
+    const elderlyId = user.userElderlyId;
+    const linkedEldery = await DataStore.query(Elderly, elderlyId);
+    setLinkedElderly(linkedEldery?.code);
+  };
+
+  useEffect(() => {
+    checkLinkedElderlies();
+  }, []);
+
+  const linkElderly = async () => {
     const uid = await AsyncStorage.getItem("uid");
     if (!uid) return;
     const elderlyToBeLinked = await DataStore.query(
@@ -68,67 +80,63 @@ const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
     }
   };
 
+  const unlink = () => {
+    // TODO
+    console.log("unlink");
+  };
+
   const linkLater = () => {
     NavigationService.goBack();
   };
 
-  const checkLinkedElderlies = async () => {
-    const user = await getUser();
-    if (!user) return;
-    const elderlyId = user.userElderlyId;
-    const linkedEldery = await DataStore.query(Elderly, elderlyId);
-    setLinkedElderly(linkedEldery?.code);
-  };
-
-  useEffect(() => {
-    checkLinkedElderlies();
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
-      <Text h1 color={colors.text}>
-        {localStrings.fillInLinkCode}
-      </Text>
-      <View style={styles.link}>
-        <TextInput
-          placeholder={localStrings.code}
-          textContentType="oneTimeCode"
-          autoCapitalize="characters"
-          onChangeText={(t) => setLinkCode(t)}
-          style={styles.codeInput}
-        />
-        <View style={styles.btns}>
-          <TouchableOpacity onPress={link} style={styles.linkBtn}>
+      {linkedElderly && linkedElderly.length > 0 && (
+        <View style={styles.linkedElderlies}>
+          <Text h1 bold color={colors.text} style={{ marginBottom: 10 }}>
+            {localStrings.linkedElderly}
+          </Text>
+          <Text h2 color={colors.text}>
+            {linkedElderly}
+          </Text>
+          <TouchableOpacity onPress={unlink} style={styles.unlinkBtn}>
             <Text h3 bold color={colors.white}>
-              {localStrings.link}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={linkLater}>
-            <Text h3 color={colors.darkBlue}>
-              {localStrings.linkLater}
+              {localStrings.unlinkElderly}
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        {linkedElderly && linkedElderly.length > 0 && (
-          <View style={styles.linkedElderlies}>
-            <Text h3 color={colors.text}>
-              {localStrings.linkedElderly}
-            </Text>
-            <Text h5 color={colors.text}>
-              {linkedElderly}
-            </Text>
+      )}
+      {(linkedElderly == null || linkedElderly.length === 0) && (
+        <View>
+          <Text h1 color={colors.text}>
+            {localStrings.fillInLinkCode}
+          </Text>
+          <View style={styles.link}>
+            <TextInput
+              placeholder={localStrings.code}
+              textContentType="oneTimeCode"
+              autoCapitalize="characters"
+              onChangeText={(t) => setLinkCode(t)}
+              style={styles.codeInput}
+            />
+            <View style={styles.btns}>
+              <TouchableOpacity
+                onPress={() => linkElderly()}
+                style={styles.linkBtn}
+              >
+                <Text h3 bold color={colors.white}>
+                  {localStrings.link}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={linkLater}>
+                <Text h3 color={colors.darkBlue}>
+                  {localStrings.linkLater}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        )}
-        {linkedElderly && linkedElderly.length === 0 && (
-          <View>
-            <Text h3 color={colors.darkBlue}>
-              {localStrings.noLinkedElderly}
-            </Text>
-          </View>
-        )}
-      </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

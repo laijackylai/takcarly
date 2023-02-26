@@ -8,7 +8,7 @@ import createStyles from "./NotificationScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { localStrings } from "shared/localization";
 
-interface ProfileScreenProps { }
+interface ProfileScreenProps {}
 
 const ProfileScreen: React.FC<ProfileScreenProps> = () => {
   const theme = useTheme();
