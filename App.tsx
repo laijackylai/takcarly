@@ -13,8 +13,11 @@ import { NotificationProvider } from "react-native-internal-notification";
 import PushNotification from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Notifications } from "react-native-notifications";
+import Tts from "react-native-tts";
 
 LogBox.ignoreAllLogs();
+Tts.setDefaultLanguage("zh-HK");
 
 PushNotification.configure({
   onRegister: async (token) => {
@@ -29,6 +32,25 @@ PushNotification.configure({
     // PushNotification.localNotification(notification);
     // eslint-disable-next-line import/no-named-as-default-member
     notification.finish(PushNotificationIOS.FetchResult.NoData);
+
+    //* handle android notification
+    if (Platform.OS === "android") {
+      Notifications.postLocalNotification({
+        body: notification.data["pinpoint.notification.body"],
+        title: notification.data["pinpoint.notification.title"],
+        identifier: "",
+        payload: undefined,
+        sound: "",
+        badge: 0,
+        type: "",
+        thread: "",
+      });
+    }
+
+    //* read notification
+    Tts.getInitStatus().then(() => {
+      Tts.speak(notification.data["pinpoint.notification.title"]);
+    });
   },
 
   onRegistrationError: function (err) {
