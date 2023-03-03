@@ -125,7 +125,7 @@ const Navigation = () => {
     const { userElderlyId } = userData;
     if (userElderlyId) {
       setElderlyLinked(true);
-      // NavigationService.navigate("Home");
+      NavigationService.navigate(SCREENS.HOME);
     } else {
       console.info("no elderly linked");
       setElderlyLinked(false);

@@ -15,7 +15,7 @@ import { useNotification } from "react-native-internal-notification";
 import Icon from "react-native-dynamic-vector-icons";
 import { getUser } from "shared/functions/getUser";
 
-interface CaretakerLinkScreenProps {}
+interface CaretakerLinkScreenProps { }
 
 const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
   const noti = useNotification();
@@ -80,9 +80,29 @@ const CaretakerLinkScreen: React.FC<CaretakerLinkScreenProps> = () => {
     }
   };
 
-  const unlink = () => {
-    // TODO
-    console.log("unlink");
+  const unlink = async () => {
+    const user = await getUser();
+    if (!user) return;
+
+    const { id } = user;
+    if (!id) return;
+    if (!linkedElderly) return;
+
+    const userData = await DataStore.query(User, id);
+
+    if (userData) {
+      await DataStore.save(
+        User.copyOf(userData, (u) => {
+          u.Elderly = undefined;
+          u.userElderlyId = undefined;
+        }),
+      )
+        .then(() => {
+          console.info("Removed linked elderly");
+          NavigationService.goBack();
+        })
+        .catch((error) => console.error(error));
+    }
   };
 
   const linkLater = () => {

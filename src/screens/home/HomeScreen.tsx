@@ -13,7 +13,7 @@ import { localStrings } from "shared/localization";
 import Icon from "react-native-dynamic-vector-icons";
 import CalendarStrip from "react-native-calendar-strip";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DataStore } from "aws-amplify";
 import { Elderly, ScheduledItem } from "models";
@@ -22,7 +22,7 @@ import axios from "axios";
 import { useNotification } from "react-native-internal-notification";
 import { getUser } from "shared/functions/getUser";
 
-interface HomeScreenProps {}
+interface HomeScreenProps { }
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const noti = useNotification();
@@ -33,10 +33,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [schedule, setSchedule] = useState<ScheduledItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().getFullYear().toString() +
-      "-" +
-      (new Date().getMonth() + 1).toString() +
-      "-" +
-      new Date().getDate().toString(),
+    "-" +
+    (new Date().getMonth() + 1).toString() +
+    "-" +
+    new Date().getDate().toString(),
   );
   const [isModalVisible, setModalVisible] = useState(false);
   const [editType, setEditType] = useState<string>("add");
@@ -65,9 +65,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   const getData = async (selectedDate: string) => {
-    console.info("fetching user schedule");
     const uid = await AsyncStorage.getItem("uid");
     if (uid == null) return;
+    dateSelect(moment());
+    console.info("fetching user schedule");
     const scheduledItems = await DataStore.query(
       ScheduledItem,
       (item) => item.and((i) => [i.userID.eq(uid), i.date.eq(selectedDate)]),
