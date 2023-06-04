@@ -59,7 +59,14 @@ const ElderlyScreen: React.FC<ElderlyScreenProps> = ({ route }) => {
       },
     ).subscribe((snapshot) => {
       const { items, isSynced } = snapshot;
-      console.info("Scheduled data is synced: ", isSynced);
+      console.info(
+        "Scheduled data is synced: ",
+        isSynced,
+        "| date: ",
+        date,
+        "| length: ",
+        items.length,
+      );
       if (items && items.length > 0) {
         setSchedule(items);
       } else {

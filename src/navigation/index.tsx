@@ -88,18 +88,20 @@ const Navigation = () => {
   });
 
   const signInFlow = async (user: any) => {
+    console.info("user signed in");
     const name: string = user.username;
     if (name) {
-      const userData = await DataStore.query(User, (u) => u.name.eq(name), {
+      await DataStore.query(User, (u) => u.name.eq(name), {
         limit: 1,
+      }).then((userData) => {
+        if (userData && userData[0]) {
+          console.info("user data: ", userData[0]);
+          checkLinkedElderly(userData[0]);
+          saveUser(userData[0]);
+          subscribeToUser(userData[0].id);
+          setSignedIn(true);
+        }
       });
-      if (userData && userData[0]) {
-        console.info("user data: ", userData[0]);
-        checkLinkedElderly(userData[0]);
-        saveUser(userData[0]);
-        subscribeToUser(userData[0].id);
-        setSignedIn(true);
-      }
 
       // aws analytics
       Analytics.autoTrack("session", {

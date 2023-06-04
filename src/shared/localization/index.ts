@@ -47,6 +47,7 @@ export const localStrings = new LocalizedStrings({
     successSendNoti: "Successfully sent remind notification",
     elderlyScreen: "Elderly",
     unlinkElderly: "Unlink",
+    noUserLinkedError: "No elderly linked",
   },
   chi: {
     yes: "是",
@@ -93,6 +94,7 @@ export const localStrings = new LocalizedStrings({
     successSendNoti: "成功提醒老人家",
     elderlyScreen: "老人家",
     unlinkElderly: "取消鏈接",
+    noUserLinkedError: "沒有連結老人家",
   },
 });
 // ? Set the language manually

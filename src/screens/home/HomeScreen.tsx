@@ -13,7 +13,7 @@ import { localStrings } from "shared/localization";
 import Icon from "react-native-dynamic-vector-icons";
 import CalendarStrip from "react-native-calendar-strip";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DataStore } from "aws-amplify";
 import { Elderly, ScheduledItem } from "models";
@@ -67,7 +67,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const getData = async (selectedDate: string) => {
     const uid = await AsyncStorage.getItem("uid");
     if (uid == null) return;
-    dateSelect(moment());
+    // dateSelect(moment());
     console.info("fetching user schedule");
     const scheduledItems = await DataStore.query(
       ScheduledItem,
@@ -85,7 +85,20 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const sendRemindNotification = async (title: string, body: string) => {
     const { userElderlyId } = await getUser();
-    if (!userElderlyId) return;
+    if (!userElderlyId) {
+      noti.showNotification({
+        title: localStrings.noUserLinkedError,
+        icon: (
+          <Icon
+            name="alert-circle"
+            type="MaterialCommunityIcons"
+            color={colors.danger}
+            size={35}
+          />
+        ),
+      });
+      return;
+    }
 
     const linkedElderly = await DataStore.query(Elderly, userElderlyId);
     if (!linkedElderly) return;
@@ -127,7 +140,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             {localStrings.calendar}
           </Text>
           <TouchableOpacity>
-            <Icon name="search" size={35} color={colors.darkBlue} />
+            <Icon
+              name="search"
+              type="MaterialCommunityIcons"
+              size={35}
+              color={colors.darkBlue}
+            />
           </TouchableOpacity>
         </View>
         <CalendarStrip

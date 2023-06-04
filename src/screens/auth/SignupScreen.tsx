@@ -14,7 +14,7 @@ import { Auth, DataStore } from "aws-amplify";
 import { User } from "models";
 import { localStrings } from "shared/localization";
 
-interface SignupScreenProps {}
+interface SignupScreenProps { }
 
 const SignupScreen: React.FC<SignupScreenProps> = () => {
   const theme = useTheme();
@@ -37,6 +37,7 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
         username,
         password: pw,
         attributes: {
+          email: `${username}@gmail.com`,
           // eslint-disable-next-line camelcase
           preferred_username: username,
         },
@@ -49,7 +50,7 @@ const SignupScreen: React.FC<SignupScreenProps> = () => {
             createNewUser(res.user.getUsername());
           }
         })
-        .catch((e) => Alert.alert(`Error: ${e}`));
+        .catch((e) => Alert.alert(`Sign up Error: ${e}`));
     } catch (error) {
       console.log("error signing up", error);
     }
