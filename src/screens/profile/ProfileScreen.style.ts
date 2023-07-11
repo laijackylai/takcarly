@@ -5,6 +5,7 @@ import { ScreenHeight } from "@freakycoder/react-native-helpers";
 interface Style {
   container: ViewStyle;
   buttons: ViewStyle;
+  button: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -21,6 +22,9 @@ export default (theme: ExtendedTheme) => {
       flexDirection: "column",
       alignItems: "center",
       marginTop: 0.025 * ScreenHeight,
+    },
+    button: {
+      marginVertical: 3,
     },
   });
 };

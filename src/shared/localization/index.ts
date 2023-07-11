@@ -48,6 +48,9 @@ export const localStrings = new LocalizedStrings({
     elderlyScreen: "Elderly",
     unlinkElderly: "Unlink",
     noUserLinkedError: "No elderly linked",
+    settings: "Settings",
+    removeUser: "Remove User",
+    error: "Error",
   },
   chi: {
     yes: "是",
@@ -95,6 +98,9 @@ export const localStrings = new LocalizedStrings({
     elderlyScreen: "老人家",
     unlinkElderly: "取消鏈接",
     noUserLinkedError: "沒有連結老人家",
+    settings: "設定",
+    removeUser: "移除用家",
+    error: "錯誤",
   },
 });
 // ? Set the language manually

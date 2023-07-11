@@ -141,7 +141,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           </Text>
           <TouchableOpacity>
             <Icon
-              name="search"
+              name="magnify"
               type="MaterialCommunityIcons"
               size={35}
               color={colors.darkBlue}

@@ -8,10 +8,13 @@ import { Auth } from "aws-amplify";
 import { localStrings } from "shared/localization";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
+import { useNotification } from "react-native-internal-notification";
+import Icon from "react-native-dynamic-vector-icons";
 
-interface LoginScreenProps {}
+interface LoginScreenProps { }
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
+  const noti = useNotification();
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -24,7 +27,18 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     try {
       await Auth.signIn(username, pw);
     } catch (error) {
-      console.log("error signing in", error);
+      console.error("error signing in", error);
+      noti.showNotification({
+        title: localStrings.error + ": " + error,
+        icon: (
+          <Icon
+            name="alert-circle"
+            type="MaterialCommunityIcons"
+            color={colors.danger}
+            size={35}
+          />
+        ),
+      });
     }
   };
 
@@ -39,7 +53,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text h1 bold color={colors.darkBlue} style={styles.loginText}>
-        {localStrings.login}
+        TAKCARLY
       </Text>
       <View style={styles.textInput}>
         <TextInput
