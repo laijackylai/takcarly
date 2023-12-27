@@ -20,7 +20,7 @@
     "amazon-cognito-identity-js": "^5.2.11",
     "aws-amplify": "^5.0.4",
     "aws-amplify-react-native": "^6.0.5",
-    "axios": "^1.2.0",
+    "axios": "^1.6.3",
     "axios-hooks": "^3.1.4",
     "events": "^3.3.0",
     "moment": "^2.29.4",
